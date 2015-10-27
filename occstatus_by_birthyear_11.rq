@@ -5,18 +5,20 @@
 # currently querying small dataset
 # endpoint = http://virtuoso.kdr250.eculture.labs.vu.nl/sparql
 
-prefix ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
-prefix dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
 
-prefix sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
-prefix sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
-prefix country: <http://data.socialhistory.org/resource/clio/country/>
-prefix prop: <http://data.socialhistory.org/resource/clio/property/>
-prefix indicator: <http://data.socialhistory.org/resource/clio/indicator/>
+PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
+PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX country: <http://data.socialhistory.org/resource/clio/country/>
+PREFIX prop: <http://data.socialhistory.org/resource/clio/property/>
+PREFIX indicator: <http://data.socialhistory.org/resource/clio/indicator/>
+PREFIX nappcountry: <http://data.socialhistory.org/resource/napp/BPLCNTRY/>
 
-select ?age ?birthyear ?occstatus ?gdppc ?county ?birthcountry 
-    ?maritalstat ?sex ?urban from <http://data.socialhistory.org/resource/napp/dataset/englandwales1881_small>
-where{
+
+SELECT ?age ?birthyear ?occstatus ?gdppc ?county ?birthcountry ?maritalstat ?sex ?urban 
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+WHERE {
     ?personid dim:ORDERGB ?ordergb .
     ?personid dim:AGE ?age .
     FILTER(?ordergb != ordergb:24 || ?age != '999')
@@ -27,19 +29,21 @@ where{
     ?personid dim:BPLCNTRY ?birthcountry .
     ?personid dim:SEX ?sex .
     ?personid dim:URBAN ?urban .
-    minus{?personid dim:BPLCNTRY <http://data.socialhistory.org/resource/napp/BPLCNTRY/99999>}.
+    FILTER(?birthcountry != nappcountry:99999)
     ?personid dim:MARST ?maritalstat
-    bind(xsd:integer(?year) - xsd:integer(?age) as ?birthyear) .
-    bind(xsd:integer(strafter(str(?ordergb), 'ORDERGB/')) as ?occstatus) .
+    BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear) .
+    BIND(xsd:integer(strafter(str(?ordergb), 'ORDERGB/')) as ?occstatus) .
     {
-        select ?birthyear ?gdppc from 
-        <http://data.socialhistory.org/resource/clio/>
-        where{
+        SELECT ?birthyear ?gdppc 
+        FROM <http://data.socialhistory.org/resource/clio/>
+        WHERE {
             ?data sdmxdim:refArea country:826 .
             ?data sdmxdim:refPeriod ?year .
             ?data prop:indicator indicator:GDPPC1990GKD .
             ?data sdmxmsr:obsValue ?gdppc .
-            bind(xsd:integer(str(?year)) as ?birthyear) .
+            BIND(xsd:integer(str(?year)) AS ?birthyear) .
         }
     }
 }
+
+LIMIT 100
