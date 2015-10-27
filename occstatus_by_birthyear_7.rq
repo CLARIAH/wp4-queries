@@ -9,15 +9,9 @@ SELECT (AVG(?occstatus) as ?mean_occstatus)  ?birthyear
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
 WHERE{
     ?s dim:ORDERGB ?ordergb .
-    MINUS{
-        {
-            ?s dim:ORDERGB ordergb:24 .
-        } UNION { # without union it behaves like AND
-            ?s dim:AGE '999' .
-        }
-    }
     ?s dim:AGE ?age .
     ?s dim:YEAR ?year .
+    FILTER(?ordergb != ordergb:24 || ?age != '999')
     BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear)
     BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
 }
