@@ -1,0 +1,11 @@
+#---- qry 6 ------#
+# little test-query to see how to filter/minus on literal
+PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+SELECT DISTINCT ?age
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
+WHERE{
+    ?s dim:AGE ?age .
+    FILTER NOT EXISTS { ?s dim:AGE '999' }
+}
+ORDER BY ?age
+LIMIT 100 

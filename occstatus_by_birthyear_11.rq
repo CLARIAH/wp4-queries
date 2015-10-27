@@ -1,0 +1,46 @@
+#---- query 11 -----#
+# obtain the individual-level dataset
+# combined with gdp in birthyear data
+# similar to query 10, but without the average aggregation of occstatus
+# currently querying small dataset
+# endpoint = http://virtuoso.kdr250.eculture.labs.vu.nl/sparql
+
+prefix ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
+prefix dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+
+prefix sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+prefix sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
+prefix country: <http://data.socialhistory.org/resource/clio/country/>
+prefix prop: <http://data.socialhistory.org/resource/clio/property/>
+prefix indicator: <http://data.socialhistory.org/resource/clio/indicator/>
+
+select ?age ?birthyear ?occstatus ?gdppc ?county ?birthcountry 
+    ?maritalstat ?sex ?urban from <http://data.socialhistory.org/resource/napp/dataset/englandwales1881_small>
+where{
+    ?personid dim:ORDERGB ?ordergb .
+    minus{?personid dim:ORDERGB ordergb:24} .
+    ?personid dim:AGE ?age .
+    minus{?personid dim:AGE "999"} .
+    ?personid dim:YEAR ?year .
+
+    # additional control variables, still to be de-uri'd & minus'd
+    ?personid dim:COUNTYGB ?county .
+    ?personid dim:BPLCNTRY ?birthcountry .
+    ?personid dim:SEX ?sex .
+    ?personid dim:URBAN ?urban .
+    minus{?personid dim:BPLCNTRY <http://data.socialhistory.org/resource/napp/BPLCNTRY/99999>}.
+    ?personid dim:MARST ?maritalstat
+    bind(xsd:integer(?year) - xsd:integer(?age) as ?birthyear) .
+    bind(xsd:integer(strafter(str(?ordergb), 'ORDERGB/')) as ?occstatus) .
+    {
+        select ?birthyear ?gdppc from 
+        <http://data.socialhistory.org/resource/clio/>
+        where{
+            ?data sdmxdim:refArea country:826 .
+            ?data sdmxdim:refPeriod ?year .
+            ?data prop:indicator indicator:GDPPC1990GKD .
+            ?data sdmxmsr:obsValue ?gdppc .
+            bind(xsd:integer(str(?year)) as ?birthyear) .
+        }
+    }
+}

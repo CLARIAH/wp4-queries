@@ -1,0 +1,80 @@
+PREFIX nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX serial: <http://data.socialhistory.org/resource/napp/SERIAL>
+PREFIX relate: <http://data.socialhistory.org/resource/napp/RELATE/>
+PREFIX urban: <http://data.socialhistory.org/resource/napp/URBAN/>
+PREFIX sex: <http://data.socialhistory.org/resource/napp/SEX/>
+
+SELECT ?householdID ?personID ?urban_area ?region ?male ?age_child ?enrolled ?agen_head ?occupation_father ?agen_mother ?occupation_mother ?n_servants ?nchildren ?ageoldestchild ?n_older_siblings ?birth_order 
+
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+
+WHERE {
+
+    ?personID nappdim:SERIAL ?householdID .
+    ?personID nappdim:AGE ?age .
+    ?personID nappdim:SEX ?sex .
+    ?personID nappdim:URBAN ?urban .
+    ?personID nappdim:COUNTYGB ?region .
+    BIND(IF(?urban = urban:2, 1, 0) AS ?urban_area) .
+    BIND(IF(?sex = sex:1, 1, 0) AS ?male) .
+    BIND(xsd:integer(?age) AS ?age_child) . 
+    ?personID nappdim:OCCSTRNG ?occstring .
+    BIND(IF(REGEX(?occstring, "sch|^(sc|sh)[ao].?l|app|pup|[ (]ap[)]?$|^[(]?ap[ )]|apren|stud|apr|^sco?$|ysgol|[(]sc?r?[)]|apic|^s$", 'i'), 1, 0) AS ?enrolled) .
+    ?personID nappdim:RELATE ?relate .
+    VALUES ?relate { relate:301 relate:302 relate:306 }
+
+    OPTIONAL{
+        ?head nappdim:SERIAL ?householdID .
+        ?head nappdim:RELATE relate:101 .
+        ?head nappdim:AGE ?age_head .
+        BIND(xsd:integer(?age_head) AS ?agen_head) .
+        ?head nappdim:OCCSTRNG ?occupation_father .
+    }
+
+    OPTIONAL{
+        ?mother nappdim:SERIAL ?householdID .
+        ?mother nappdim:AGE ?age_mother .
+        ?mother nappdim:OCCSTRNG ?occupation_mother .
+        BIND(xsd:integer(?age_mother) AS ?agen_mother) .
+        ?mother nappdim:RELATE ?relate_m .
+        VALUES ?relate_m { relate:201 relate:202 relate:203 }
+    }
+
+     OPTIONAL {
+        SELECT ?householdID (COUNT(?servant) AS ?nservants) WHERE{
+            ?servant nappdim:SERIAL ?householdID .
+            ?servant nappdim:RELATE ?relate_srv .
+            VALUES ?relate_srv { relate:1210 relate:1211 relate:1212 relate:1213 relate:1214 relate:1215 relate:1216 relate:1217 }
+        }
+        GROUP BY ?householdID
+    }
+    BIND ( IF (BOUND (?nservants), ?nservants, 0 )  as ?n_servants  ) .
+
+      { 
+         SELECT ?householdID (COUNT(?child) AS ?nchildren) (MAX(xsd:integer(?age)) AS ?ageoldestchild) WHERE{
+            ?child nappdim:SERIAL ?householdID .
+            ?child nappdim:RELATE ?relate_c .
+            VALUES ?relate_c { relate:301 relate:302 relate:306 }
+            ?child nappdim:AGE ?age .
+        }
+        GROUP BY ?householdID
+    }
+
+     
+     OPTIONAL {
+        SELECT ?personID ?householdID (COUNT(DISTINCT ?siblingID) as ?n_older_siblings) WHERE {
+            ?personID nappdim:SERIAL ?householdID . 
+            ?personID nappdim:AGE ?age_child .
+            ?siblingID nappdim:SERIAL ?householdID .
+            ?siblingID nappdim:AGE ?sibling_age .
+            ?siblingID nappdim:RELATE ?relate .
+            VALUES ?relate { relate:301 relate:302 relate:306 }
+            FILTER (xsd:integer(?sibling_age) > xsd:integer(?age_child))
+            FILTER (?personID != ?siblingID)
+        }
+        GROUP BY ?personID ?householdID
+    }
+
+    BIND ((?n_older_siblings + 1) AS ?birth_order)
+} 
+LIMIT 100

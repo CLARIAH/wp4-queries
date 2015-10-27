@@ -1,0 +1,20 @@
+#---- qry 5 ------#
+# turns out 24 is the no occupation category, should be left out 
+# (better yet, imputed, but let's leave that for another time)
+# done through MINUS because I couldn't figure out negation on VALUES
+# alternative: FILTER NOT EXISTS {?s dim:ORDERGB ordergb:24}
+PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
+SELECT DISTINCT ?occstatus ?ordergb
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+WHERE{
+    ?s dim:ORDERGB ?ordergb .
+    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
+    FILTER NOT EXISTS { ?s dim:ORDERGB ordergb:24 }
+}
+ORDER BY ?occstatus
+LIMIT 100 
+
+
+# MINUS{?s dim:ORDERGB ordergb:24} <= doesn't run in stardog 
+# http://www.w3.org/TR/sparql11-query/#neg-notexists-minus

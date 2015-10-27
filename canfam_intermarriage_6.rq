@@ -1,0 +1,13 @@
+#---- qry5 ----#
+# create catholic/other variable
+# tabulate religion by catholic/other
+PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
+
+SELECT (COUNT(?personid) AS ?nreligion) ?dreligion 
+FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+WHERE {
+  ?personid  candim:religio2 ?religion .
+  bind(if(xsd:integer(strafter(str(?religion), "religio2/")) < 20, "catholic", "other") as ?dreligion) .
+}
+GROUP BY ?dreligion
+ORDER BY DESC(?nreligion)

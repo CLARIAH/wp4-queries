@@ -1,0 +1,31 @@
+
+# ------ qry 9 ------#
+# query for individual-level dataset with some controls
+# all these variables should also be investigated for missing codes etc.
+PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
+PREFIX age: <http://data.socialhistory.org/resource/napp/AGE/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?year ?age ?age_num ?ordergb ?occstatus ?birthyear 
+    ?county ?birthcounty ?birthcountry ?marst ?labforce ?sex ?urban
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+WHERE{
+    ?s dim:AGE ?age .
+    ?s dim:ORDERGB ?ordergb .
+    ?s dim:YEAR ?year .
+    ?s dim:COUNTYGB ?county .
+    # ?county skos:prefLabel ?countyname # vocab with preflabels not present
+    ?s dim:BPLCNTRY ?birthcountry .
+    ?s dim:BPLCTYGB ?birthcounty .
+    ?s dim:MARST ?marst .
+    ?s dim:LABFORCE ?labforce .
+    ?s dim:SEX ?sex .
+    ?s dim:URBAN ?urban .
+    MINUS{
+        {?s dim:ORDERGB ordergb:24 } UNION {?s dim:AGE "999"}
+    }
+    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus)
+    BIND(xsd:integer(?age) AS ?age_num)
+    BIND(xsd:integer(?year) - ?age_num AS ?birthyear)
+}
+LIMIT 100 

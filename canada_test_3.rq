@@ -1,0 +1,15 @@
+
+##########
+# this one is stopped because of an expected timeout
+# goal was to get the literacy rate by age group...
+
+PREFIX canfam: <http://data.socialhistory.org/vocab/canfam/dimension/>
+PREFIX literate: <http://data.socialhistory.org/resource/canfam/canread/>
+
+SELECT * 
+
+FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901> 
+
+WHERE {
+    ?sub canfam:canread literate:Y
+}

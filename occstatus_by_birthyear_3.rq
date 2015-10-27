@@ -1,0 +1,14 @@
+#---- qry3 ------#
+
+# get mean by age as check for data
+PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+SELECT (ROUND(AVG(?occstatus)) as ?mean_occstatus) ?age 
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
+WHERE{
+    ?s dim:ORDERGB ?ordergb .
+    ?s dim:AGE ?age .
+    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
+}
+GROUP BY ?age
+ORDER BY ?age
+LIMIT 100 

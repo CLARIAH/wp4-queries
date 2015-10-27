@@ -1,0 +1,13 @@
+#---- qry 4 ------#
+# inspect data because 0 gets a (high) average occupational status
+PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+SELECT ?occstatus ?age
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+WHERE{
+    ?s dim:ORDERGB ?ordergb .
+    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
+    ?s dim:AGE ?age.
+    VALUES ?age{"000" "010" "020" "080"}
+}
+ORDER BY ?age
+LIMIT 100 

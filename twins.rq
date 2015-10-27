@@ -1,0 +1,30 @@
+PREFIX nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX relate: <http://data.socialhistory.org/resource/napp/RELATE/>
+
+SELECT (COUNT(DISTINCT ?householdID) as ?count) 
+
+FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+
+WHERE{
+
+    VALUES ?child1_relate { relate:301 relate:302 relate:306 }
+    VALUES ?child2_relate { relate:301 relate:302 relate:306 }
+  
+    ?child1 nappdim:SERIAL ?householdID .
+    ?child2 nappdim:SERIAL ?householdID .
+
+    ?child1 nappdim:AGE ?age .
+    ?child2 nappdim:AGE ?age .   
+
+    ?child1 nappdim:RELATE ?child1_relate .
+#     FILTER REGEX(STR(?child1_relate), '301|302|306')
+
+    ?child2 nappdim:RELATE ?child2_relate .
+#     FILTER REGEX(STR(?child2_relate), '301|302|306')
+
+    FILTER (?child1 != ?child2)
+}
+LIMIT 100
+
+
+# "As a workaround, putting the VALUES statement at the top of the query body seems to execute much faster." 

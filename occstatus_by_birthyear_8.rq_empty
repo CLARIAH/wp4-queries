@@ -1,0 +1,5 @@
+#---- qry 8 ------#
+# add number of observations to calculate standard error of the mean
+# and output to simple visualisation
+# might also be nice to get some indication of the spread of
+# generations for each birthyear, but not sure how that would work

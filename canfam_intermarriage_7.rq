@@ -1,0 +1,17 @@
+#---- qry7 ----#
+# grooms with catholic/other variable
+PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
+PREFIX marst: <http://data.socialhistory.org/resource/canfam/marst/>
+PREFIX sex: <http://data.socialhistory.org/resource/canfam/sex/>
+PREFIX relhead2: <http://data.socialhistory.org/resource/canfam/relhead2/>
+
+SELECT * 
+FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+WHERE {
+  ?groomid candim:marst marst:M .
+  ?groomid candim:relhead2 relhead2:101 .
+  ?groomid candim:sex sex:M .
+  ?groomid candim:religio2 ?religion.
+  ?groomid candim:hhdid ?hhdid
+  bind(if(xsd:integer(strafter(str(?religion), "religio2/")) < 20, "catholic", "other") as ?dreligion)
+}

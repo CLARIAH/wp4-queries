@@ -1,0 +1,7 @@
+#------- qry 1 ---------#
+# list all predicates
+SELECT DISTINCT ?p 
+FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+WHERE {
+  ?s ?p ?o
+}
