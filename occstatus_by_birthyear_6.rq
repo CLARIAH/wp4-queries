@@ -5,7 +5,7 @@ SELECT DISTINCT ?age
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
 WHERE{
     ?s dim:AGE ?age .
-    FILTER NOT EXISTS { ?s dim:AGE '999' }
+    FILTER(?age != '999')
 }
 ORDER BY ?age
 LIMIT 100 
