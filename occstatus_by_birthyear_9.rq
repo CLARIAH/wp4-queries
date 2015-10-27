@@ -21,9 +21,7 @@ WHERE{
     ?s dim:LABFORCE ?labforce .
     ?s dim:SEX ?sex .
     ?s dim:URBAN ?urban .
-    MINUS{
-        {?s dim:ORDERGB ordergb:24 } UNION {?s dim:AGE "999"}
-    }
+    FILTER(?ordergb != ordergb:24 || ?age != '999')
     BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus)
     BIND(xsd:integer(?age) AS ?age_num)
     BIND(xsd:integer(?year) - ?age_num AS ?birthyear)

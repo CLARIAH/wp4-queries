@@ -5,4 +5,3 @@ FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 WHERE{
     ?s ?p ?o
 }
-LIMIT 100 

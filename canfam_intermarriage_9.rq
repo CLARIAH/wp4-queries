@@ -24,3 +24,4 @@ WHERE{
 # this suggests there should be some 40000 female spouses 
 # and each should also have a household head, so you'd expect
 # about 40000 results in query 8...
+# => fixed in virtuoso.ini

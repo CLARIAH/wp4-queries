@@ -17,4 +17,3 @@ WHERE{
 }
 GROUP BY ?birthyear
 ORDER BY ?birthyear
-LIMIT 100 

@@ -10,7 +10,7 @@ FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 WHERE{
     ?s dim:ORDERGB ?ordergb .
     BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
-    FILTER NOT EXISTS { ?s dim:ORDERGB ordergb:24 }
+    FILTER(?ordergb != ordergb:24)
 }
 ORDER BY ?occstatus
 LIMIT 100 

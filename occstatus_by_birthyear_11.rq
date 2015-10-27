@@ -18,9 +18,8 @@ select ?age ?birthyear ?occstatus ?gdppc ?county ?birthcountry
     ?maritalstat ?sex ?urban from <http://data.socialhistory.org/resource/napp/dataset/englandwales1881_small>
 where{
     ?personid dim:ORDERGB ?ordergb .
-    minus{?personid dim:ORDERGB ordergb:24} .
     ?personid dim:AGE ?age .
-    minus{?personid dim:AGE "999"} .
+    FILTER(?ordergb != ordergb:24 || ?age != '999')
     ?personid dim:YEAR ?year .
 
     # additional control variables, still to be de-uri'd & minus'd

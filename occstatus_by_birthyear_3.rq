@@ -11,4 +11,3 @@ WHERE{
 }
 GROUP BY ?age
 ORDER BY ?age
-LIMIT 100 

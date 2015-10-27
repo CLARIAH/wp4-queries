@@ -17,14 +17,8 @@ WHERE{
     ?child2 nappdim:AGE ?age .   
 
     ?child1 nappdim:RELATE ?child1_relate .
-#     FILTER REGEX(STR(?child1_relate), '301|302|306')
 
     ?child2 nappdim:RELATE ?child2_relate .
-#     FILTER REGEX(STR(?child2_relate), '301|302|306')
 
     FILTER (?child1 != ?child2)
 }
-LIMIT 100
-
-
-# "As a workaround, putting the VALUES statement at the top of the query body seems to execute much faster." 

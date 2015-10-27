@@ -8,4 +8,3 @@ WHERE{
     FILTER(?age != '999')
 }
 ORDER BY ?age
-LIMIT 100 

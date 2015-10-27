@@ -1,5 +1,4 @@
 PREFIX nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
-PREFIX serial: <http://data.socialhistory.org/resource/napp/SERIAL>
 PREFIX relate: <http://data.socialhistory.org/resource/napp/RELATE/>
 PREFIX urban: <http://data.socialhistory.org/resource/napp/URBAN/>
 PREFIX sex: <http://data.socialhistory.org/resource/napp/SEX/>

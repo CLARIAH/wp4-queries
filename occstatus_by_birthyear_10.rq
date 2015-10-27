@@ -35,9 +35,8 @@ WHERE {
 	
 		WHERE {
 		?s dim:ORDERGB ?ordergb .
-		MINUS { ?s dim:ORDERGB ordergb:24 } .
-		MINUS { ?s dim:AGE '999' } .
 		?s dim:AGE ?age .
+		FILTER(?ordergb != ordergb:24 || ?age != '999')
 		?s dim:YEAR ?year .
 		BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear)
 		BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
