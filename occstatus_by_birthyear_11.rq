@@ -17,7 +17,9 @@ PREFIX nappcountry: <http://data.socialhistory.org/resource/napp/BPLCNTRY/>
 
 
 SELECT ?age ?birthyear ?occstatus ?gdppc ?county ?birthcountry ?maritalstat ?sex ?urban 
+
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+
 WHERE {
     ?personid dim:ORDERGB ?ordergb .
     ?personid dim:AGE ?age .

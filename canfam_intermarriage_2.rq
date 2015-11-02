@@ -1,10 +1,13 @@
-#------- qry2 --------#
 # list all religions
+
 PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
 
 SELECT DISTINCT ?religion 
+
 FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+
 WHERE {
   ?personid  candim:religio2 ?religion .
 }
+
 ORDER BY ?religion

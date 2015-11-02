@@ -1,8 +1,11 @@
-#---- qry 2 ------#
 # get ordergb by birth year
+
 PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
+
 SELECT ?occstatus ?year ?age ?birthyear ?county 
+
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
+
 WHERE{
     ?s dim:ORDERGB ?ordergb .
     BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus)
@@ -11,4 +14,5 @@ WHERE{
     ?s dim:AGE ?age .
     BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear) .
 }
+
 LIMIT 100 

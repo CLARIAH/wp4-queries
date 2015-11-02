@@ -1,5 +1,3 @@
-##########
-
 PREFIX canfam: <http://data.socialhistory.org/vocab/canfam/dimension/>
 PREFIX literate: <http://data.socialhistory.org/resource/canfam/canread/>
 

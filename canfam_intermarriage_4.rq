@@ -1,9 +1,11 @@
-#---- qry4 ----#
 # list all relhead2
+
 PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
 
 SELECT DISTINCT ?relate 
+
 FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+
 WHERE {
-  ?personid candim:relhead2 ?relate
+    ?personid candim:relhead2 ?relate
 }

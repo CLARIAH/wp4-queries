@@ -1,15 +1,12 @@
-
-##########
-# this one is stopped because of an expected timeout
-# goal was to get the literacy rate by age group...
-# ok now 
-
+# get the literacy rate by age group...
 
 PREFIX canfam: <http://data.socialhistory.org/vocab/canfam/dimension/>
 PREFIX literate: <http://data.socialhistory.org/resource/canfam/canread/>
 
 SELECT ?age (COUNT(?person_lit) AS ?n_person_lit) 
-FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901> 
+
+FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+ 
 WHERE {
     ?person_lit canfam:canread literate:Y.
     ?person_lit canfam:ageyr ?age.
@@ -23,4 +20,3 @@ WHERE {
 
 GROUP BY ?age
 ORDER BY DESC(?age)
-

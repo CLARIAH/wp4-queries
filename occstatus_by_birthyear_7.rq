@@ -1,12 +1,15 @@
-#---- qry 7 ------#
 # get mean by age as descriptive, 
 # this time excluding orderdb:24
 # as well as age = 999
+
 PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
 PREFIX age: <http://data.socialhistory.org/resource/napp/AGE/>
+
 SELECT (AVG(?occstatus) as ?mean_occstatus)  ?birthyear
+
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
+
 WHERE{
     ?s dim:ORDERGB ?ordergb .
     ?s dim:AGE ?age .
@@ -15,5 +18,6 @@ WHERE{
     BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear)
     BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
 }
+
 GROUP BY ?birthyear
 ORDER BY ?birthyear
