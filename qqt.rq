@@ -1,4 +1,5 @@
 PREFIX nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX serial: <http://data.socialhistory.org/resource/napp/SERIAL>
 PREFIX relate: <http://data.socialhistory.org/resource/napp/RELATE/>
 PREFIX urban: <http://data.socialhistory.org/resource/napp/URBAN/>
 PREFIX sex: <http://data.socialhistory.org/resource/napp/SEX/>
@@ -9,6 +10,7 @@ FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 
 WHERE {
 
+    VALUES ?relate { relate:301 relate:302 relate:306 }
     ?personID nappdim:SERIAL ?householdID .
     ?personID nappdim:AGE ?age .
     ?personID nappdim:SEX ?sex .
@@ -20,7 +22,6 @@ WHERE {
     ?personID nappdim:OCCSTRNG ?occstring .
     BIND(IF(REGEX(?occstring, "sch|^(sc|sh)[ao].?l|app|pup|[ (]ap[)]?$|^[(]?ap[ )]|apren|stud|apr|^sco?$|ysgol|[(]sc?r?[)]|apic|^s$", 'i'), 1, 0) AS ?enrolled) .
     ?personID nappdim:RELATE ?relate .
-    VALUES ?relate { relate:301 relate:302 relate:306 }
 
     OPTIONAL{
         ?head nappdim:SERIAL ?householdID .
@@ -31,19 +32,19 @@ WHERE {
     }
 
     OPTIONAL{
+        VALUES ?relate_m { relate:201 relate:202 relate:203 }
         ?mother nappdim:SERIAL ?householdID .
         ?mother nappdim:AGE ?age_mother .
         ?mother nappdim:OCCSTRNG ?occupation_mother .
         BIND(xsd:integer(?age_mother) AS ?agen_mother) .
         ?mother nappdim:RELATE ?relate_m .
-        VALUES ?relate_m { relate:201 relate:202 relate:203 }
     }
 
      OPTIONAL {
         SELECT ?householdID (COUNT(?servant) AS ?nservants) WHERE{
+            VALUES ?relate_srv { relate:1210 relate:1211 relate:1212 relate:1213 relate:1214 relate:1215 relate:1216 relate:1217 }
             ?servant nappdim:SERIAL ?householdID .
             ?servant nappdim:RELATE ?relate_srv .
-            VALUES ?relate_srv { relate:1210 relate:1211 relate:1212 relate:1213 relate:1214 relate:1215 relate:1216 relate:1217 }
         }
         GROUP BY ?householdID
     }
@@ -62,12 +63,12 @@ WHERE {
      
      OPTIONAL {
         SELECT ?personID ?householdID (COUNT(DISTINCT ?siblingID) as ?n_older_siblings) WHERE {
+            VALUES ?relate { relate:301 relate:302 relate:306 }
             ?personID nappdim:SERIAL ?householdID . 
             ?personID nappdim:AGE ?age_child .
             ?siblingID nappdim:SERIAL ?householdID .
             ?siblingID nappdim:AGE ?sibling_age .
             ?siblingID nappdim:RELATE ?relate .
-            VALUES ?relate { relate:301 relate:302 relate:306 }
             FILTER (xsd:integer(?sibling_age) > xsd:integer(?age_child))
             FILTER (?personID != ?siblingID)
         }
