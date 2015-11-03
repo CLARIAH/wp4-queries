@@ -2,14 +2,16 @@
 # tabulate religion by catholic/other
 
 PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
+PREFIX rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 
 SELECT (COUNT(?personid) AS ?nreligion) ?dreligion 
 
 FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
 
 WHERE {
-  ?personid  candim:religio2 ?religion .
-  BIND(if(xsd:integer(strafter(str(?religion), "religio2/")) < 20, "catholic", "other") as ?dreligion) .
+    ?personid  candim:religio2 ?religion .
+    ?religion rdf:value ?religionvalue . 
+    BIND(if(?religionvalue < 20, "catholic", "other") as ?dreligion) .
 }
 
 GROUP BY ?dreligion

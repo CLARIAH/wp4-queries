@@ -14,8 +14,9 @@ WHERE {
     ?groomid candim:relhead2 relhead2:101 .
     ?groomid candim:sex sex:M .
     ?groomid candim:religio2 ?religion.
-    ?grobiomid candim:hhdid ?hhdid
-    BIND(if(xsd:integer(strafter(str(?religion), "religio2/")) < 20, "catholic", "other") as ?dreligion)
+    ?grobiomid candim:hhdid ?hhdid . 
+    ?religion rdf:value ?religionvalue . 
+    BIND(if(?religionvalue < 20, "catholic", "other") as ?dreligion) .
 }
 
 LIMIT 100 

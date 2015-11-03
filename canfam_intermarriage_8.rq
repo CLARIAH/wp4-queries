@@ -13,15 +13,18 @@ WHERE {
     ?groomid candim:marst marst:M .
     ?groomid candim:sex sex:M .
     ?groomid candim:relhead2 relhead2:101 .
-    ?groomid candim:religio2 ?groomreligion.
     ?groomid candim:hhdid ?hhdid .
-    BIND(if(xsd:integer(strafter(str(?groomreligion), "religio2/")) < 20, "catholic", "other") as ?dgroomrel)
+    ?groomid candim:religio2 ?groomreligion.
+    ?groomreligion rdf:value ?groomreligionvalue . 
+    BIND(if(?groomreligionvalue < 20, "catholic", "other") as ?dgroomrel) .
+    
     OPTIONAL {
         ?brideid candim:marst marst:M .
         ?brideid candim:sex sex:F .
         ?brideid candim:relhead2 relhead2:201 .
-        ?brideid candim:religio2 ?bridereligion.
         ?brideid candim:hhdid ?hhdid .
-        BIND(if(xsd:integer(strafter(str(?bridereligion), "religio2/")) < 20, "catholic", "other") as ?dbriderel)
+        ?brideid candim:religio2 ?bridereligion.
+        ?bridereligion rdf:value ?bridereligionvalue . 
+        BIND(if(?bridereligionvalue < 20, "catholic", "other") as ?dbriderel) .
     }
 }
