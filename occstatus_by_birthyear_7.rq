@@ -9,14 +9,15 @@ PREFIX age: <http://data.socialhistory.org/resource/napp/AGE/>
 SELECT (AVG(?occstatus) as ?mean_occstatus)  ?birthyear
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
+FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
     ?s dim:ORDERGB ?ordergb .
     ?s dim:AGE ?age .
     ?s dim:YEAR ?year .
-    FILTER(?ordergb != ordergb:24 || ?age != '999')
     BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear)
-    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
+    ?ordergb rdf:value ?occstatus .
+    FILTER(?occstatus != 24 || ?age != '999')
 }
 
 GROUP BY ?birthyear

@@ -5,11 +5,12 @@ PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
 SELECT (ROUND(AVG(?occstatus)) as ?mean_occstatus) ?age 
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
+FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
     ?s dim:ORDERGB ?ordergb .
+    ?ordergb rdf:value ?occstatus . 
     ?s dim:AGE ?age .
-    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
 }
 
 GROUP BY ?age

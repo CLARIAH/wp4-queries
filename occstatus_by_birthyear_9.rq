@@ -10,10 +10,12 @@ SELECT ?year ?age ?age_num ?ordergb ?occstatus ?birthyear
     ?county ?birthcounty ?birthcountry ?marst ?labforce ?sex ?urban
     
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
     ?s dim:AGE ?age .
     ?s dim:ORDERGB ?ordergb .
+    ?ordergb rdf:value ?occstatus .
     ?s dim:YEAR ?year .
     ?s dim:COUNTYGB ?county .
     # ?county skos:prefLabel ?countyname # vocab with preflabels not present
@@ -23,8 +25,7 @@ WHERE{
     ?s dim:LABFORCE ?labforce .
     ?s dim:SEX ?sex .
     ?s dim:URBAN ?urban .
-    FILTER(?ordergb != ordergb:24 || ?age != '999')
-    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus)
+    FILTER(?occstatus != 24 || ?age != '999')
     BIND(xsd:integer(?age) AS ?age_num)
     BIND(xsd:integer(?year) - ?age_num AS ?birthyear)
 }

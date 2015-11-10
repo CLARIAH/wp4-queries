@@ -9,11 +9,12 @@ PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
 SELECT DISTINCT ?occstatus ?ordergb
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
     ?s dim:ORDERGB ?ordergb .
-    BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
-    FILTER(?ordergb != ordergb:24)
+    ?ordergb rdf:value ?occstatus .
+    FILTER(?occstatus != 24)
 }
 
 ORDER BY ?occstatus

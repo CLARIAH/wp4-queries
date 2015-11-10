@@ -27,19 +27,22 @@ WHERE {
 	?dataset sdmxdim:refPeriod ?year .
 	?dataset prop:indicator indicator:GDPPC1990GKD .
 	?dataset sdmxmsr:obsValue ?gdp .
+	
+	# difficult to remove this bind!? 
 	BIND(xsd:integer(STR(?year)) AS ?birthyear)
 
     { SELECT (AVG(?occstatus) as ?mean_occstatus) ?birthyear
 	
 	FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+	FROM <http://data.socialhistory.org/resource/napp/>
 	
 		WHERE {
 		?s dim:ORDERGB ?ordergb .
+        ?ordergb rdf:value ?occstatus .
 		?s dim:AGE ?age .
-		FILTER(?ordergb != ordergb:24 || ?age != '999')
+		FILTER(?occstatus != 24 || ?age != '999')
 		?s dim:YEAR ?year .
 		BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear)
-		BIND(xsd:integer(STRAFTER(STR(?ordergb), 'ORDERGB/')) AS ?occstatus) .
       }
       GROUP BY ?birthyear
     }

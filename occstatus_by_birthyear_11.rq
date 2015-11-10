@@ -19,11 +19,13 @@ PREFIX nappcountry: <http://data.socialhistory.org/resource/napp/BPLCNTRY/>
 SELECT ?age ?birthyear ?occstatus ?gdppc ?county ?birthcountry ?maritalstat ?sex ?urban 
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE {
     ?personid dim:ORDERGB ?ordergb .
+    ?ordergb rdf:value ?occstatus .
     ?personid dim:AGE ?age .
-    FILTER(?ordergb != ordergb:24 || ?age != '999')
+    FILTER(?occstatus != 24 || ?age != '999')
     ?personid dim:YEAR ?year .
 
     # additional control variables, still to be de-uri'd & minus'd
@@ -34,7 +36,6 @@ WHERE {
     FILTER(?birthcountry != nappcountry:99999)
     ?personid dim:MARST ?maritalstat
     BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear) .
-    BIND(xsd:integer(strafter(str(?ordergb), 'ORDERGB/')) as ?occstatus) .
     {
         SELECT ?birthyear ?gdppc 
         FROM <http://data.socialhistory.org/resource/clio/>
