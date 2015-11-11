@@ -4,10 +4,12 @@ PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
 PREFIX marst: <http://data.socialhistory.org/resource/canfam/marst/>
 PREFIX sex: <http://data.socialhistory.org/resource/canfam/sex/>
 PREFIX relhead2: <http://data.socialhistory.org/resource/canfam/relhead2/>
+PREFIX aukes-religion: <http://data.socialhistory.org/resource/canfam/auke/religion/>
 
 SELECT * 
 
 FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+FROM <http://data.socialhistory.org/resource/canfam/auke>
 
 WHERE {
     ?groomid candim:marst marst:M .
@@ -15,8 +17,10 @@ WHERE {
     ?groomid candim:sex sex:M .
     ?groomid candim:religio2 ?religion.
     ?grobiomid candim:hhdid ?hhdid . 
-    ?religion rdf:value ?religionvalue . 
-    BIND(if(?religionvalue < 20, "catholic", "other") as ?dreligion) .
+    ?religion aukes-religion: ?dreligion . 
+    
+    # ?religion rdf:value ?religionvalue .    
+    # BIND(if(?religionvalue < 20, "catholic", "other") as ?dreligion) .
 }
 
 LIMIT 100 

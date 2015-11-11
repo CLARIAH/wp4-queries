@@ -1,0 +1,7 @@
+SELECT COUNT(DISTINCT(?s)) 
+
+FROM <http://data.socialhistory.org/resource/canfam/auke>
+
+WHERE {
+    ?s ?p ?o . 
+}

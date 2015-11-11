@@ -3,15 +3,21 @@
 
 PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
 PREFIX rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX aukes-religion: <http://data.socialhistory.org/resource/canfam/auke/religion/>
 
 SELECT (COUNT(?personid) AS ?nreligion) ?dreligion 
 
 FROM <http://data.socialhistory.org/resource/canfam/dataset/canada1901>
+FROM <http://data.socialhistory.org/resource/canfam/auke>
 
 WHERE {
+
     ?personid  candim:religio2 ?religion .
-    ?religion rdf:value ?religionvalue . 
-    BIND(if(?religionvalue < 20, "catholic", "other") as ?dreligion) .
+    ?religion aukes-religion: ?dreligion . 
+    
+    # ?religion rdf:value ?religionvalue . 
+    # BIND(if(?religionvalue < 20, "catholic", "other") as ?dreligion) .
+    
 }
 
 GROUP BY ?dreligion

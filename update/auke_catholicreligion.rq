@@ -1,0 +1,23 @@
+PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
+PREFIX rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX aukes-religion: <http://data.socialhistory.org/resource/canfam/auke/religion/>
+
+
+INSERT { 
+    GRAPH <http://data.socialhistory.org/resource/canfam/auke> { 
+
+        ?catholicreligion aukes-religion: aukes-religion:catholic . 
+
+     } 
+}
+
+WHERE { 
+
+    GRAPH <http://data.socialhistory.org/resource/canfam/dataset/canada1901> { 
+
+        ?s candim:religio2 ?catholicreligion .
+        ?catholicreligion rdf:value ?catholicreligionvalue . 
+        FILTER(?catholicreligionvalue < 20) . 
+
+    } 
+}
