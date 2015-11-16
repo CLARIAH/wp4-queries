@@ -42,7 +42,7 @@ WHERE {
 		?s dim:AGE ?age .
 		FILTER(?occstatus != 24 || ?age != '999')
 		?s dim:YEAR ?year .
-		BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear)
+		BIND(?year - ?age AS ?birthyear)
       }
       GROUP BY ?birthyear
     }

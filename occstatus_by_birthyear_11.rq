@@ -35,7 +35,7 @@ WHERE {
     ?personid dim:URBAN ?urban .
     FILTER(?birthcountry != nappcountry:99999)
     ?personid dim:MARST ?maritalstat
-    BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear) .
+    BIND(?year - ?age AS ?birthyear) .
     {
         SELECT ?birthyear ?gdppc 
         FROM <http://data.socialhistory.org/resource/clio/>

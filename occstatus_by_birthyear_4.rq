@@ -11,7 +11,7 @@ WHERE{
     ?s dim:ORDERGB ?ordergb .
     ?ordergb rdf:value ?occstatus . 
     ?s dim:AGE ?age.
-    VALUES ?age{"000" "010" "020" "080"}
+    VALUES ?age{0 10 20 80}
 }
 
 ORDER BY ?age

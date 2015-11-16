@@ -15,7 +15,7 @@ WHERE{
     ?s dim:ORDERGB ?ordergb .
     ?s dim:AGE ?age .
     ?s dim:YEAR ?year .
-    BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear)
+    BIND(?year - ?age AS ?birthyear)
     ?ordergb rdf:value ?occstatus .
     FILTER(?occstatus != 24 || ?age != '999')
 }

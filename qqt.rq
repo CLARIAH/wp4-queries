@@ -12,13 +12,12 @@ WHERE {
 
     VALUES ?relate { relate:301 relate:302 relate:306 }
     ?personID nappdim:SERIAL ?householdID .
-    ?personID nappdim:AGE ?age .
+    ?personID nappdim:AGE ?age_child .
     ?personID nappdim:SEX ?sex .
     ?personID nappdim:URBAN ?urban .
     ?personID nappdim:COUNTYGB ?region .
     BIND(IF(?urban = urban:2, 1, 0) AS ?urban_area) .
     BIND(IF(?sex = sex:1, 1, 0) AS ?male) .
-    BIND(xsd:integer(?age) AS ?age_child) . 
     ?personID nappdim:OCCSTRNG ?occstring .
     BIND(IF(REGEX(?occstring, "sch|^(sc|sh)[ao].?l|app|pup|[ (]ap[)]?$|^[(]?ap[ )]|apren|stud|apr|^sco?$|ysgol|[(]sc?r?[)]|apic|^s$", 'i'), 1, 0) AS ?enrolled) .
     ?personID nappdim:RELATE ?relate .
@@ -26,17 +25,15 @@ WHERE {
     OPTIONAL{
         ?head nappdim:SERIAL ?householdID .
         ?head nappdim:RELATE relate:101 .
-        ?head nappdim:AGE ?age_head .
-        BIND(xsd:integer(?age_head) AS ?agen_head) .
+        ?head nappdim:AGE ?agen_head .
         ?head nappdim:OCCSTRNG ?occupation_father .
     }
 
     OPTIONAL{
         VALUES ?relate_m { relate:201 relate:202 relate:203 }
         ?mother nappdim:SERIAL ?householdID .
-        ?mother nappdim:AGE ?age_mother .
+        ?mother nappdim:AGE ?agen_mother .
         ?mother nappdim:OCCSTRNG ?occupation_mother .
-        BIND(xsd:integer(?age_mother) AS ?agen_mother) .
         ?mother nappdim:RELATE ?relate_m .
     }
 

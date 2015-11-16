@@ -13,7 +13,7 @@ WHERE{
     ?s dim:COUNTYGB ?county .
     ?s dim:YEAR ?year.
     ?s dim:AGE ?age .
-    BIND(xsd:integer(?year) - xsd:integer(?age) AS ?birthyear) .
+    BIND(?year - ?age AS ?birthyear) .
 }
 
 LIMIT 100 
