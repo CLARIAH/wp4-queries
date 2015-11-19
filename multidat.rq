@@ -1,0 +1,14 @@
+# simple count by age over two datasets
+# note that age in scotlang != integer, hence the bind
+
+prefix nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
+
+select (count(?brit) as ?nbrits) ?nage
+from <http://data.socialhistory.org/resource/napp/dataset/scotland1881>
+from <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
+where{
+    ?brit nappdim:AGE ?age.
+    BIND(xsd:integer(?age) as ?nage)
+  }
+group by ?nage
+order by ?nage
