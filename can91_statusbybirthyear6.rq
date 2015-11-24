@@ -1,0 +1,42 @@
+# occupational status by occupation in canada 1891
+# same as occstatus_by_birthyear from engwal 1881
+# but using slightly more involved occupational coding
+
+prefix nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
+prefix hisco: <http://qber.data2semantics.org/vocab/ocs/hisco/category/>
+prefix hiscam: <http://qber.data2semantics.org/vocab/ocs/hiscam/>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
+PREFIX clioctr: <http://data.socialhistory.org/resource/clio/country/>
+PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
+PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
+
+# get average hiscam value and gdp in that birthyear 
+# for sumstats or visualisation
+# never got it to finish
+# separetely parts inside/outside optional run fine
+select avg(?hiscam as ?mnhiscam)  ?birthyear 
+from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
+from <http://qber.data2semantics.org/vocab/ocs/hisco/>
+from <http://data.socialhistory.org/resource/clio/>
+where{
+    ?person nappdim:OCCHISCO ?occhisco .
+    ?occhisco skos:closeMatch ?hisco .
+    ?hiscoentry hisco:hiscoCode ?hisco . 
+    ?hiscoentry hiscam:hiscamValue ?hiscam .
+    ?hisco skos:prefLabel ?label .
+    ?hiscoentry skos:inScheme hiscam:cahiscam .
+
+    ?person nappdim:AGE ?age .
+    ?person nappdim:YEAR ?censusyear .
+    bind(?censusyear - ?age as ?birthyear) .
+    optional{
+            ?dataset clioprop:indicator clioind:GDPPC1990GKD .
+            ?dataset sdmxdim:refArea clioctr:124 .
+            ?dataset sdmxmsr:obsValue ?gdppc .
+            ?dataset sdmxdim:refPeriod ?year .
+            bind(xsd:integer(str(?year)) as ?birthyear) .                
+    }
+}
+limit 100
