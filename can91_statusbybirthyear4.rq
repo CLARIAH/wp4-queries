@@ -13,7 +13,7 @@ PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
 PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
 
 # person-level obs combined with birthyear-gdp
-select distinct *
+select *
 from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 # from <http://qber.data2semantics.org/vocab/ocs/hisco/>
 from <http://data.socialhistory.org/resource/clio/>
@@ -27,7 +27,7 @@ where{
         ?dataset sdmxdim:refArea clioctr:124 .
         ?dataset sdmxmsr:obsValue ?gdppc .
         ?dataset sdmxdim:refPeriod ?year .
-        bind(xsd:integer(str(?year)) as ?birthyear)        
+        bind(xsd:int(str(?year)) as ?birthyear)        
     }
 }
-limit 100# 
+limit 100

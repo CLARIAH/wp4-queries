@@ -14,15 +14,14 @@ PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
 
 # get average hiscam value and gdp in that birthyear 
 # for sumstats or visualisation
-# never got it to finish
-# separetely parts inside/outside optional run fine
-select avg(?hiscam as ?mnhiscam)  ?birthyear 
+# not tested
+select avg(?hiscam as ?mnhiscam) ?birthyear ?gdppc
 from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 from <http://qber.data2semantics.org/vocab/ocs/hisco/>
 from <http://data.socialhistory.org/resource/clio/>
 where{
     ?person nappdim:OCCHISCO ?occhisco .
-    ?occhisco skos:closeMatch ?hisco .
+    ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
     ?hiscoentry hisco:hiscoCode ?hisco . 
     ?hiscoentry hiscam:hiscamValue ?hiscam .
     ?hisco skos:prefLabel ?label .
@@ -36,7 +35,7 @@ where{
             ?dataset sdmxdim:refArea clioctr:124 .
             ?dataset sdmxmsr:obsValue ?gdppc .
             ?dataset sdmxdim:refPeriod ?year .
-            bind(xsd:integer(str(?year)) as ?birthyear) .                
+            bind(xsd:int(str(?year)) as ?birthyear) .                
     }
 }
 limit 100

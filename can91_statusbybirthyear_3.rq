@@ -13,7 +13,7 @@ PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
 PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
 
 # gdp series
-select distinct *
+select *
 # from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 # from <http://qber.data2semantics.org/vocab/ocs/hisco/>
 from <http://data.socialhistory.org/resource/clio/>

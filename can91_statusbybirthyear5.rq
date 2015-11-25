@@ -13,15 +13,13 @@ PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
 PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
 
 # combine person-level obs, occupational mapping, and gdp
-# runs slowly, feeling is that it's slightly faster if the from-statements
-# are moved within the overall where statement
-select distinct *
+select *
 from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 from <http://qber.data2semantics.org/vocab/ocs/hisco/>
 from <http://data.socialhistory.org/resource/clio/>
 where{
     ?person nappdim:OCCHISCO ?occhisco .
-    ?occhisco skos:closeMatch ?hisco .
+    ?occhisco (skos:closeMatch|skos:exactMatch)?hisco .
     ?hiscoentry hisco:hiscoCode ?hisco . 
     ?hiscoentry hiscam:hiscamValue ?hiscam .
     ?hisco skos:prefLabel ?label .
@@ -35,7 +33,7 @@ where{
         ?dataset sdmxdim:refArea clioctr:124 .
         ?dataset sdmxmsr:obsValue ?gdppc .
         ?dataset sdmxdim:refPeriod ?year .
-        bind(xsd:integer(str(?year)) as ?birthyear)        
+        bind(xsd:int(str(?year)) as ?birthyear)        
     }
 }
 limit 100

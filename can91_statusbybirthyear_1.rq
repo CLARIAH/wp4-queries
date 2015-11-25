@@ -18,7 +18,7 @@ from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 from <http://qber.data2semantics.org/vocab/ocs/hisco/>
 where{
     ?person nappdim:OCCHISCO ?occhisco . 
-    ?occhisco skos:closeMatch ?hisco .
+    ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
     ?hiscoentry hisco:hiscoCode ?hisco . 
     ?hiscoentry hiscam:hiscamValue ?hiscam .
     ?hisco skos:prefLabel ?label .
