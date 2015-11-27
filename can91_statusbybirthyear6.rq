@@ -14,28 +14,29 @@ PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
 
 # get average hiscam value and gdp in that birthyear 
 # for sumstats or visualisation
-# not tested
 select avg(?hiscam as ?mnhiscam) ?birthyear ?gdppc
 from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 from <http://qber.data2semantics.org/vocab/ocs/hisco/>
 from <http://data.socialhistory.org/resource/clio/>
 where{
-    ?person nappdim:OCCHISCO ?occhisco .
-    ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
-    ?hiscoentry hisco:hiscoCode ?hisco . 
-    ?hiscoentry hiscam:hiscamValue ?hiscam .
-    ?hisco skos:prefLabel ?label .
-    ?hiscoentry skos:inScheme hiscam:cahiscam .
-
-    ?person nappdim:AGE ?age .
-    ?person nappdim:YEAR ?censusyear .
-    bind(?censusyear - ?age as ?birthyear) .
+    ?dataset clioprop:indicator clioind:GDPPC1990GKD .
+    ?dataset sdmxdim:refArea clioctr:124 .
+    ?dataset sdmxmsr:obsValue ?gdppc .
+    ?dataset sdmxdim:refPeriod ?year .
+    bind(xsd:int(str(?year)) as ?birthyear) .
+    filter(?birthyear < 1892) .
     optional{
-            ?dataset clioprop:indicator clioind:GDPPC1990GKD .
-            ?dataset sdmxdim:refArea clioctr:124 .
-            ?dataset sdmxmsr:obsValue ?gdppc .
-            ?dataset sdmxdim:refPeriod ?year .
-            bind(xsd:int(str(?year)) as ?birthyear) .                
+        ?person nappdim:OCCHISCO ?occhisco .
+        ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
+        ?hiscoentry hisco:hiscoCode ?hisco . 
+        ?hiscoentry hiscam:hiscamValue ?hiscam .
+        ?hisco skos:prefLabel ?label .
+        ?hiscoentry skos:inScheme hiscam:cahiscam .
+
+        ?person nappdim:AGE ?age .
+        ?person nappdim:YEAR ?censusyear .
+        bind(?censusyear - ?age as ?birthyear) .        
     }
 }
-limit 100
+order by ?birthyear
+limit 1000
