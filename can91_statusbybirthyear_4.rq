@@ -2,31 +2,24 @@
 # same as occstatus_by_birthyear from engwal 1881
 # but using slightly more involved occupational coding
 
-prefix nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
-prefix hisco: <http://qber.data2semantics.org/vocab/ocs/hisco/category/>
-prefix hiscam: <http://qber.data2semantics.org/vocab/ocs/hiscam/>
-prefix skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
-PREFIX sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
-PREFIX clioctr: <http://data.socialhistory.org/resource/clio/country/>
-PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
-PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
-
 # person-level obs combined with birthyear-gdp
-select *
-from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
-# from <http://qber.data2semantics.org/vocab/ocs/hisco/>
-from <http://data.socialhistory.org/resource/clio/>
-where{
-    ?person nappdim:OCCHISCO ?occhisco .
-    ?person nappdim:AGE ?age .
-    ?person nappdim:YEAR ?censusyear .
-    optional{
+SELECT *
+
+FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
+FROM <http://data.socialhistory.org/resource/clio/>
+
+WHERE{
+    ?person napp-dimension:OCCHISCO ?occhisco .
+    ?person napp-dimension:AGE ?age .
+    ?person napp-dimension:YEAR ?censusyear .
+    
+    OPTIONAL{
         ?dataset clioprop:indicator clioind:GDPPC1990GKD .
-        ?dataset sdmxdim:refArea clioctr:124 .
-        ?dataset sdmxmsr:obsValue ?gdppc .
-        ?dataset sdmxdim:refPeriod ?year .
+        ?dataset sdmx-dimension:refArea clioctr:124 .
+        ?dataset sdmx-measure:obsValue ?gdppc .
+        ?dataset sdmx-dimension:refPeriod ?year .
         FILTER(xsd:int(str(?year)) = (?censusyear - ?age))        
     }
 }
-limit 100
+
+LIMIT 100

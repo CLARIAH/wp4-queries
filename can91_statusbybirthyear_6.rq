@@ -2,40 +2,35 @@
 # same as occstatus_by_birthyear from engwal 1881
 # but using slightly more involved occupational coding
 
-prefix nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
-prefix hisco: <http://qber.data2semantics.org/vocab/ocs/hisco/category/>
-prefix hiscam: <http://qber.data2semantics.org/vocab/ocs/hiscam/>
-prefix skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
-PREFIX sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
-PREFIX clioctr: <http://data.socialhistory.org/resource/clio/country/>
-PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
-PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
-
 # get average hiscam value and gdp in that birthyear 
 # for sumstats or visualisation
-select avg(?hiscam as ?mnhiscam) as ?avg ?year ?gdppc
-from <http://data.socialhistory.org/resource/napp/dataset/canada1891>
-from <http://qber.data2semantics.org/vocab/ocs/hisco/>
-from <http://data.socialhistory.org/resource/clio/>
-where{
+
+SELECT avg(?hiscam as ?mnhiscam) AS ?avg ?year ?gdppc
+
+FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
+FROM <http://qber.data2semantics.org/vocab/ocs/hisco/>
+FROM <http://data.socialhistory.org/resource/clio/>
+
+WHERE {
     ?dataset clioprop:indicator clioind:GDPPC1990GKD .
-    ?dataset sdmxdim:refArea clioctr:124 .
-    ?dataset sdmxmsr:obsValue ?gdppc .
-    ?dataset sdmxdim:refPeriod ?year .
+    ?dataset sdmx-dimension:refArea clioctr:124 .
+    ?dataset sdmx-measure:obsValue ?gdppc .
+    ?dataset sdmx-dimension:refPeriod ?year .
     FILTER(xsd:int(str(?year)) < 1892) .
-    optional{
-        ?person nappdim:OCCHISCO ?occhisco .
+    
+    OPTIONAL{
+        ?person napp-dimension:OCCHISCO ?occhisco .
         ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
-        ?hiscoentry hisco:hiscoCode ?hisco . 
+        ?hiscoentry hiscocat:hiscoCode ?hisco . 
         ?hiscoentry hiscam:hiscamValue ?hiscam .
         ?hisco skos:prefLabel ?label .
         ?hiscoentry skos:inScheme hiscam:cahiscam .
-
-        ?person nappdim:AGE ?age .
-        ?person nappdim:YEAR ?censusyear .
+        
+		?person napp-dimension:AGE ?age .
+        ?person napp-dimension:YEAR ?censusyear .
         FILTER((?censusyear - ?age) = (xsd:int(str(?year))))
     }
 }
-order by ?birthyear
+
+ORDER BY ?birthyear
 LIMIT 1000
