@@ -21,13 +21,12 @@ where{
     ?person nappdim:OCCHISCO ?occhisco .
     ?person nappdim:AGE ?age .
     ?person nappdim:YEAR ?censusyear .
-    bind(?censusyear - ?age as ?birthyear)
     optional{
         ?dataset clioprop:indicator clioind:GDPPC1990GKD .
         ?dataset sdmxdim:refArea clioctr:124 .
         ?dataset sdmxmsr:obsValue ?gdppc .
         ?dataset sdmxdim:refPeriod ?year .
-        bind(xsd:int(str(?year)) as ?birthyear)        
+        FILTER(xsd:int(str(?year)) = (?censusyear - ?age))        
     }
 }
 limit 100
