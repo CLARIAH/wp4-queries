@@ -22,8 +22,8 @@ where{
     ?dataset sdmxdim:refArea clioctr:124 .
     ?dataset sdmxmsr:obsValue ?gdppc .
     ?dataset sdmxdim:refPeriod ?year .
-    bind(xsd:int(str(?year)) as ?birthyear) .
-    filter(?birthyear < 1892) .
+    FILTER(xsd:int(str(?year)) < 1892) .
+    
     optional{
         ?person nappdim:OCCHISCO ?occhisco .
         ?occhisco (skos:closeMatch|skos:exactMatch)?hisco .
@@ -31,9 +31,10 @@ where{
         ?hiscoentry hiscam:hiscamValue ?hiscam .
         ?hisco skos:prefLabel ?label .
         ?hiscoentry skos:inScheme hiscam:cahiscam .
+        
         ?person nappdim:AGE ?age .
         ?person nappdim:YEAR ?censusyear .        
-        bind(?censusyear - ?age as ?birthyear)
+        FILTER((?censusyear - ?age) = (xsd:int(str(?year))))
     }
 }
-limit 1000
+LIMIT 1000
