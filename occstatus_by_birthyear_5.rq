@@ -1,9 +1,8 @@
 # turns out 24 is the no occupation category, should be left out 
 # (better yet, imputed, but let's leave that for another time)
 # done through MINUS because I couldn't figure out negation on VALUES
-# alternative: FILTER NOT EXISTS {?s dim:ORDERGB ordergb:24}
+# alternative: FILTER NOT EXISTS {?s napp-dimension:ORDERGB ordergb:24}
 
-PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
 
 SELECT DISTINCT ?occstatus ?ordergb
@@ -12,7 +11,7 @@ FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
-    ?s dim:ORDERGB ?ordergb .
+    ?s napp-dimension:ORDERGB ?ordergb .
     ?ordergb rdf:value ?occstatus .
     FILTER(?occstatus != 24)
 }
@@ -20,5 +19,5 @@ WHERE{
 ORDER BY ?occstatus
 LIMIT 100 
 
-# MINUS{?s dim:ORDERGB ordergb:24} <= doesn't run in stardog 
+# MINUS{?s napp-dimension:ORDERGB ordergb:24} <= doesn't run in stardog 
 # http://www.w3.org/TR/sparql11-query/#neg-notexists-minus

@@ -1,10 +1,8 @@
 # query for individual-level dataset with some controls
 # all these variables should also be investigated for missing codes etc.
 
-PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
 PREFIX age: <http://data.socialhistory.org/resource/napp/AGE/>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT ?year ?age ?ordergb ?occstatus ?birthyear 
     ?county ?birthcounty ?birthcountry ?marst ?labforce ?sex ?urban
@@ -13,18 +11,18 @@ FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
-    ?s dim:AGE ?age .
-    ?s dim:ORDERGB ?ordergb .
+    ?s napp-dimension:AGE ?age .
+    ?s napp-dimension:ORDERGB ?ordergb .
     ?ordergb rdf:value ?occstatus .
-    ?s dim:YEAR ?year .
-    ?s dim:COUNTYGB ?county .
+    ?s napp-dimension:YEAR ?year .
+    ?s napp-dimension:COUNTYGB ?county .
     # ?county skos:prefLabel ?countyname # vocab with preflabels not present
-    ?s dim:BPLCNTRY ?birthcountry .
-    ?s dim:BPLCTYGB ?birthcounty .
-    ?s dim:MARST ?marst .
-    ?s dim:LABFORCE ?labforce .
-    ?s dim:SEX ?sex .
-    ?s dim:URBAN ?urban .
+    ?s napp-dimension:BPLCNTRY ?birthcountry .
+    ?s napp-dimension:BPLCTYGB ?birthcounty .
+    ?s napp-dimension:MARST ?marst .
+    ?s napp-dimension:LABFORCE ?labforce .
+    ?s napp-dimension:SEX ?sex .
+    ?s napp-dimension:URBAN ?urban .
     FILTER(?occstatus != 24 || ?age != '999')
     BIND(?year - ?age AS ?birthyear)
 }

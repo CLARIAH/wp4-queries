@@ -2,7 +2,6 @@
 # this time excluding orderdb:24
 # as well as age = 999
 
-PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
 PREFIX age: <http://data.socialhistory.org/resource/napp/AGE/>
 
@@ -12,9 +11,9 @@ FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
-    ?s dim:ORDERGB ?ordergb .
-    ?s dim:AGE ?age .
-    ?s dim:YEAR ?year .
+    ?s napp-dimension:ORDERGB ?ordergb .
+    ?s napp-dimension:AGE ?age .
+    ?s napp-dimension:YEAR ?year .
     BIND(?year - ?age AS ?birthyear)
     ?ordergb rdf:value ?occstatus .
     FILTER(?occstatus != 24 || ?age != '999')

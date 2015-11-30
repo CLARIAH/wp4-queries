@@ -1,16 +1,14 @@
 # inspect data because 0 gets a (high) average occupational status
 
-PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
-
 SELECT ?occstatus ?age
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
-    ?s dim:ORDERGB ?ordergb .
+    ?s napp-dimension:ORDERGB ?ordergb .
     ?ordergb rdf:value ?occstatus . 
-    ?s dim:AGE ?age.
+    ?s napp-dimension:AGE ?age.
     VALUES ?age{0 10 20 80}
 }
 

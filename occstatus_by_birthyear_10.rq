@@ -11,22 +11,16 @@
 
 
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
-PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
-PREFIX sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
-PREFIX country: <http://data.socialhistory.org/resource/clio/country/>
-PREFIX prop: <http://data.socialhistory.org/resource/clio/property/>
-PREFIX indicator: <http://data.socialhistory.org/resource/clio/indicator/>
-PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
 
 SELECT DISTINCT ?birthyear ?gdp ?mean_occstatus
 
 FROM <http://data.socialhistory.org/resource/clio/> 
 
 WHERE {
-	?dataset sdmxdim:refArea country:826 .
-	?dataset sdmxdim:refPeriod ?year .
-	?dataset prop:indicator indicator:GDPPC1990GKD .
-	?dataset sdmxmsr:obsValue ?gdp .
+	?dataset sdmx-dimension:refArea clioctr:826 .
+	?dataset sdmx-dimension:refPeriod ?year .
+	?dataset clioprop:indicator clioind:GDPPC1990GKD .
+	?dataset sdmx-measure:obsValue ?gdp .
 	
 	# difficult to remove this bind!? 
 	BIND(xsd:integer(STR(?year)) AS ?birthyear)
@@ -37,11 +31,11 @@ WHERE {
 	FROM <http://data.socialhistory.org/resource/napp/>
 	
 		WHERE {
-		?s dim:ORDERGB ?ordergb .
+		?s napp-dimension:ORDERGB ?ordergb .
         ?ordergb rdf:value ?occstatus .
-		?s dim:AGE ?age .
+		?s napp-dimension:AGE ?age .
 		FILTER(?occstatus != 24 || ?age != '999')
-		?s dim:YEAR ?year .
+		?s napp-dimension:YEAR ?year .
 		BIND(?year - ?age AS ?birthyear)
       }
       GROUP BY ?birthyear

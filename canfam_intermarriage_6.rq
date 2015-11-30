@@ -2,7 +2,6 @@
 # tabulate religion by catholic/other
 
 PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
-PREFIX rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 PREFIX aukes-religion: <http://data.socialhistory.org/resource/canfam/auke/religion/>
 
 SELECT (COUNT(?personid) AS ?nreligion) ?dreligion 

@@ -5,16 +5,8 @@
 # currently querying small dataset
 # endpoint = http://virtuoso.kdr250.eculture.labs.vu.nl/sparql
 
-PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
-PREFIX sdmxmsr: <http://purl.org/linked-data/sdmx/2009/measure#>
-
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
-PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
-PREFIX country: <http://data.socialhistory.org/resource/clio/country/>
-PREFIX prop: <http://data.socialhistory.org/resource/clio/property/>
-PREFIX indicator: <http://data.socialhistory.org/resource/clio/indicator/>
-PREFIX nappcountry: <http://data.socialhistory.org/resource/napp/BPLCNTRY/>
-
+PREFIX nappclioctr: <http://data.socialhistory.org/resource/napp/BPLCNTRY/>
 
 SELECT ?age ?birthyear ?occstatus ?gdppc ?county ?birthcountry ?maritalstat ?sex ?urban 
 
@@ -22,28 +14,28 @@ FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881>
 FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE {
-    ?personid dim:ORDERGB ?ordergb .
+    ?personid napp-dimension:ORDERGB ?ordergb .
     ?ordergb rdf:value ?occstatus .
-    ?personid dim:AGE ?age .
+    ?personid napp-dimension:AGE ?age .
     FILTER(?occstatus != 24 || ?age != '999')
-    ?personid dim:YEAR ?year .
+    ?personid napp-dimension:YEAR ?year .
 
     # additional control variables, still to be de-uri'd & minus'd
-    ?personid dim:COUNTYGB ?county .
-    ?personid dim:BPLCNTRY ?birthcountry .
-    ?personid dim:SEX ?sex .
-    ?personid dim:URBAN ?urban .
-    FILTER(?birthcountry != nappcountry:99999)
-    ?personid dim:MARST ?maritalstat
+    ?personid napp-dimension:COUNTYGB ?county .
+    ?personid napp-dimension:BPLCNTRY ?birthcountry .
+    ?personid napp-dimension:SEX ?sex .
+    ?personid napp-dimension:URBAN ?urban .
+    FILTER(?birthcountry != nappclioctr:99999)
+    ?personid napp-dimension:MARST ?maritalstat
     BIND(?year - ?age AS ?birthyear) .
     {
         SELECT ?birthyear ?gdppc 
         FROM <http://data.socialhistory.org/resource/clio/>
         WHERE {
-            ?data sdmxdim:refArea country:826 .
-            ?data sdmxdim:refPeriod ?year .
-            ?data prop:indicator indicator:GDPPC1990GKD .
-            ?data sdmxmsr:obsValue ?gdppc .
+            ?data sdmx-dimension:refArea clioctr:826 .
+            ?data sdmx-dimension:refPeriod ?year .
+            ?data clioprop:indicator clioind:GDPPC1990GKD .
+            ?data sdmx-measure:obsValue ?gdppc .
             BIND(xsd:integer(str(?year)) AS ?birthyear) .
         }
     }

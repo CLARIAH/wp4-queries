@@ -1,4 +1,4 @@
-PREFIX nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
 PREFIX relate: <http://data.socialhistory.org/resource/napp/RELATE/>
 
 SELECT (COUNT(DISTINCT ?householdID) as ?count) 
@@ -10,15 +10,15 @@ WHERE{
     VALUES ?child1_relate { relate:301 relate:302 relate:306 }
     VALUES ?child2_relate { relate:301 relate:302 relate:306 }
   
-    ?child1 nappdim:SERIAL ?householdID .
-    ?child2 nappdim:SERIAL ?householdID .
+    ?child1 napp-dimension:SERIAL ?householdID .
+    ?child2 napp-dimension:SERIAL ?householdID .
 
-    ?child1 nappdim:AGE ?age .
-    ?child2 nappdim:AGE ?age .   
+    ?child1 napp-dimension:AGE ?age .
+    ?child2 napp-dimension:AGE ?age .   
 
-    ?child1 nappdim:RELATE ?child1_relate .
+    ?child1 napp-dimension:RELATE ?child1_relate .
 
-    ?child2 nappdim:RELATE ?child2_relate .
+    ?child2 napp-dimension:RELATE ?child2_relate .
 
     FILTER (?child1 != ?child2)
 }

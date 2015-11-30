@@ -1,18 +1,16 @@
 # get ordergb by birth year
 
-PREFIX dim: <http://data.socialhistory.org/vocab/napp/dimension/>
-
 SELECT ?occstatus ?year ?age ?birthyear ?county 
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
 FROM <http://data.socialhistory.org/resource/napp/>
 
 WHERE{
-    ?s dim:ORDERGB ?ordergb .
+    ?s napp-dimension:ORDERGB ?ordergb .
     ?ordergb rdf:value ?occstatus . 
-    ?s dim:COUNTYGB ?county .
-    ?s dim:YEAR ?year.
-    ?s dim:AGE ?age .
+    ?s napp-dimension:COUNTYGB ?county .
+    ?s napp-dimension:YEAR ?year.
+    ?s napp-dimension:AGE ?age .
     BIND(?year - ?age AS ?birthyear) .
 }
 

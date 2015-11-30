@@ -3,6 +3,7 @@
 # but using slightly more involved occupational coding
 
 # person-level obs combined with birthyear-gdp
+
 SELECT *
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
