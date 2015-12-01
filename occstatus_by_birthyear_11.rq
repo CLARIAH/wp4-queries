@@ -30,7 +30,7 @@ WHERE {
     BIND(?year - ?age AS ?birthyear) .
     {
         SELECT ?birthyear ?gdppc 
-        FROM <http://data.socialhistory.org/resource/clio/>
+        FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2015-12-01T16:05:28.244606>
         WHERE {
             ?data sdmx-dimension:refArea clioctr:826 .
             ?data sdmx-dimension:refPeriod ?year .
