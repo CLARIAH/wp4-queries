@@ -5,7 +5,7 @@
 # get average hiscam value and gdp in that birthyear 
 # for sumstats or visualisation
 
-SELECT avg(?hiscam as ?mnhiscam) AS ?avg ?year ?gdppc
+SELECT AVG(?hiscam) AS ?meanhiscam ?year ?gdppc
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 FROM <http://qber.data2semantics.org/vocab/ocs/hisco/>
@@ -29,8 +29,11 @@ WHERE {
 		?person napp-dimension:AGE ?age .
         ?person napp-dimension:YEAR ?censusyear .
         FILTER((?censusyear - ?age) = (xsd:int(str(?year))))
+        FILTER(?occhisco != 99999).
+        FILTER(?age != 999).
+        FILTER(?age > 12).
+
     }
 }
-
-ORDER BY ?birthyear
+ORDER BY ?year
 LIMIT 1000
