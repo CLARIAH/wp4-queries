@@ -7,7 +7,7 @@
 SELECT * 
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
-FROM <http://qber.data2semantics.org/vocab/ocs/hisco/>
+FROM <http://data.socialhistory.org/vocab/hisco/>
 
 WHERE {
     ?person napp-dimension:OCCHISCO ?occhisco .
