@@ -20,19 +20,15 @@ WHERE {
     
     OPTIONAL{
         ?person napp-dimension:OCCHISCO ?occhisco .
+        FILTER(?occhisco != 99999).
         ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
-        ?hiscoentry hiscocat:hiscoCode ?hisco . 
+        ?hiscoentry hisco:hiscoCode ?hisco . 
         ?hiscoentry hiscam:hiscamValue ?hiscam .
-        # ?hisco skos:prefLabel ?label .
-        ?hiscoentry skos:inScheme hiscam:cahiscam .
+        ?hiscoentry qb:refArea hiscam:CA .
         
 		?person napp-dimension:AGE ?age .
         ?person napp-dimension:YEAR ?censusyear .
-        FILTER((?censusyear - ?age) = (xsd:int(str(?year))))
-        FILTER(?occhisco != 99999).
-        FILTER(?age != 999).
-        FILTER(?age > 12).
-
+        FILTER((?censusyear - ?age) = (xsd:int(str(?year))) && ?age != 999 && ?age > 12) .
     }
 }
 ORDER BY ?year

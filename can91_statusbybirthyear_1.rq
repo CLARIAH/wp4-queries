@@ -14,7 +14,6 @@ WHERE {
     ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
     ?hiscoentry hisco:hiscoCode ?hisco . 
     ?hiscoentry hiscam:hiscamValue ?hiscam .
-    ?hiscoentry skos:inScheme hiscam:cahiscam .
-    # ?hisco skos:prefLabel ?label .
+    ?hiscoentry qb:refArea hiscam:CA
 }
 LIMIT 100
