@@ -21,7 +21,7 @@ WHERE {
         ?occhisco (skos:closeMatch | skos:exactMatch) ?hisco .
         ?hiscoentry hiscocat:hiscoCode ?hisco . 
         ?hiscoentry hiscam:hiscamValue ?hiscam .
-        ?hisco skos:prefLabel ?label .
+        # ?hisco skos:prefLabel ?label .
         ?hiscoentry skos:inScheme hiscam:cahiscam .
         
         ?person napp-dimension:AGE ?age .
