@@ -4,6 +4,16 @@
 
 # combine person-level obs, occupational mapping, and gdp
 
+PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
+PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#>
+PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension>
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
+PREFIX hiscam: <http://data.socialhistory.org/vocab/hisco/category/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+
 SELECT ?occhisco ?hisco ?hiscam ?gdppc ?year ?age
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 FROM <http://data.socialhistory.org/vocab/hisco/>
