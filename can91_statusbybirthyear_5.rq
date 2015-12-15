@@ -10,6 +10,7 @@ FROM <http://data.socialhistory.org/vocab/hisco/>
 FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2015-12-09T16:42:52.541256>
 
 WHERE {
+    # get right clio data and year for right country
     ?dataset clioprop:indicator clioind:GDPPC1990GKD .
     ?dataset sdmx-dimension:refArea clioctr:124 .
     ?dataset sdmx-measure:obsValue ?gdppc .
@@ -17,16 +18,19 @@ WHERE {
     FILTER(xsd:int(str(?year)) < 1892) .
     
     OPTIONAL{
+        # select variables of interest and filter out bad obs. from census
+        ?person napp-dimension:AGE ?age .
+        ?person napp-dimension:YEAR ?censusyear .        
+        FILTER((?censusyear - ?age) = (xsd:int(str(?year))) && ?age != 999 && ?age > 12) .
         ?person napp-dimension:OCCHISCO ?occhisco .
         FILTER(?occhisco != 99999) . 
+
+        # occupational mapping
         ?occhisco (skos:closeMatch | skos:exactMatch) ?hisco .
         ?hiscoentry hisco:hiscoCode ?hisco . 
         ?hiscoentry hiscam:hiscamValue ?hiscam .
         ?hiscoentry qb:refArea hiscam:CA . 
         
-        ?person napp-dimension:AGE ?age .
-        ?person napp-dimension:YEAR ?censusyear .        
-        FILTER((?censusyear - ?age) = (xsd:int(str(?year))) && ?age != 999 && ?age > 12) .
     }
 }
 LIMIT 1000
