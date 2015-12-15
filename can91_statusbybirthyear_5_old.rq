@@ -1,48 +1,45 @@
-# occupational status by occupation in canada 1891
-# same as occstatus_by_birthyear from engwal 1881
-# but using slightly more involved occupational coding
-
-# combine person-level obs, occupational mapping, and gdp
-
+ # same as occstatus_by_birthyear from engwal 1881
+ # but using slightly more involved occupational coding
+ 
 PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
 PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
 PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
-PREFIX clioctr: <http://data.socialhistory.org/resource/clio/country/>
 PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
 PREFIX hiscam: <http://data.socialhistory.org/vocab/hiscam/>
 PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
 PREFIX sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#>
 PREFIX qb: <http://purl.org/linked-data/cube#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+ 
+ # combine person-level obs, occupational mapping, and gdp
+ 
+SELECT *
 
-SELECT ?occhisco ?hisco ?hiscam ?gdppc ?year ?age
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
 FROM <http://data.socialhistory.org/vocab/hisco/>
 FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2015-12-15T17:24:38.636611>
 
 WHERE {
-    # get right clio data and year for right country
     ?dataset clioprop:indicator clioind:GDPPC1990GKD .
     ?dataset sdmx-dimension:refArea clioctr:124 .
     ?dataset sdmx-measure:obsValue ?gdppc .
     ?dataset sdmx-dimension:refPeriod ?year .
-    FILTER(xsd:int(str(?year)) < 1892) .
+    bind(xsd:int(str(?year)) as ?birthyear) .
+    filter(?birthyear < 1892) .
     
-    OPTIONAL{
-        # select variables of interest and filter out bad obs. from census
+    OPTIONAL {
         ?person napp-dimension:AGE ?age .
         ?person napp-dimension:YEAR ?censusyear .        
-        FILTER((?censusyear - ?age) = (xsd:int(str(?year))) && ?age != 999 && ?age > 12) .
+        bind(?censusyear - ?age as ?birthyear)
         ?person napp-dimension:OCCHISCO ?occhisco .
-        FILTER(?occhisco != 99999) . 
-
-        # occupational mapping
+        
         ?occhisco (skos:closeMatch | skos:exactMatch) ?hisco .
         ?hiscoentry hisco:hiscoCode ?hisco . 
         ?hiscoentry hiscam:hiscamValue ?hiscam .
+        ?hiscoentry hiscam:hiscamValue ?hiscam .
         ?hiscoentry qb:refArea hiscam:CA . 
-        
-    }
+     }
 }
+LIMIT 1000 
 
-LIMIT 1000
+        

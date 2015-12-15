@@ -7,7 +7,7 @@
 SELECT *
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
-FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2015-12-09T16:42:52.541256>
+FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2015-12-15T17:24:38.636611>
 
 WHERE{
     ?person napp-dimension:OCCHISCO ?occhisco .
