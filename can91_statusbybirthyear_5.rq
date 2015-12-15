@@ -25,14 +25,14 @@ WHERE {
     ?dataset clioprop:indicator clioind:GDPPC1990GKD .
     ?dataset sdmx-dimension:refArea clioctr:124 .
     ?dataset sdmx-measure:obsValue ?gdppc .
-    ?dataset sdmx-dimension:refPeriod ?year .
-    FILTER(xsd:int(str(?year)) < 1892) .
+    ?dataset sdmx-dimension:refPeriodInt ?year .
+    FILTER(?year < 1892) .
     
     OPTIONAL{
         # select variables of interest and filter out bad obs. from census
         ?person napp-dimension:AGE ?age .
         ?person napp-dimension:YEAR ?censusyear .        
-        FILTER((?censusyear - ?age) = (xsd:int(str(?year))) && ?age != 999 && ?age > 12) .
+        FILTER((?censusyear - ?age) = ?year && ?age != 999 && ?age > 12) .
         ?person napp-dimension:OCCHISCO ?occhisco .
         FILTER(?occhisco != 99999) . 
 
