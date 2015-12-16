@@ -43,4 +43,4 @@ WHERE {
         ?hiscoentry qb:refArea hiscam:SE . 
         
     }
-}
+} LIMIT 1000
