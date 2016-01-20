@@ -1,5 +1,6 @@
 import SPARQLWrapper
 import re
+import time 
 
 endpoint = SPARQLWrapper.SPARQLWrapper("http://virtuoso.clariah-sdh.eculture.labs.vu.nl/sparql")
 
@@ -21,11 +22,13 @@ for result in results['results']["bindings"]:
         graphs_01_19.append(x)
 
 # test on one graph
-querystring = "CLEAR GRAPH <%s>" % graphs_01_19[0]
-endpoint.setQuery(querystring)
-endpoint.query()
+# querystring = "CLEAR GRAPH <%s>" % graphs_01_19[0]
+# endpoint.setQuery(querystring)
+# endpoint.query()
 
 for graph in graphs_01_19:
+    print graph 
     querystring = "CLEAR GRAPH <%s>" % graph
     endpoint.setQuery(querystring)
     endpoint.query()
+    time.sleep(5) 
