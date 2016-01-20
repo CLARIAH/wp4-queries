@@ -1,0 +1,4 @@
+DELETE { GRAPH ?g { ?s ?p ?o } }
+WHERE { GRAPH ?g { ?s ?p ?o } 
+    FILTER regex(?g, "2015-12-15") 
+}
