@@ -20,7 +20,7 @@ results = endpoint.query().convert()
 graphs = []
 for result in results['results']["bindings"]:
     graph = result['graph']['value']
-    if re.search("2016-01-20", graph): # could also filter in query, but seems very slow
+    if re.search("2016-01-21T2", graph): # could also filter in query, but seems very slow
         graphs.append(graph)
 
 # querystring = "CLEAR GRAPH <%s>" % graphs_01_19[0]
