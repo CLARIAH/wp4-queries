@@ -11,7 +11,6 @@ WHERE{
     ?medewerker medvar:di_nm_aantal_uur ?di_nm_aantal_uur .
     ?medewerker medvar:di_nm_aantal_uur ?wo_nm_aantal_uur .
     ?medewerker medvar:di_nm_aantal_uur ?wo_vm_aantal_uur .
-    BIND(xsd:integer(?ma_vm_aantal_uur) + xsd:integer(?ma_nm_aantal_uur) + xsd:integer(?di_vm_aantal_uur) + xsd:integer(?di_nm_aantal_uur) + xsd:integer(?wo_vm_aantal_uur) + xsd:integer(?wo_nm_aantal_uur) AS ?maandag) .
     ?medewerker medvar:volgnr ?volgnr . 
 	?bevperson bevvar:medewerker ?volgnr .
 	?bevperson bevvar:huw_st ?huw_st .        
