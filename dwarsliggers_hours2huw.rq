@@ -18,7 +18,3 @@ WHERE{
         ?bevperson bevvar:huw_st ?huw_st.
   }
 }
-
-
-
-# ma_vm_aantal_uur    ma_vm_reden ma_nm_aantal_uur    ma_nm_reden di_vm_aantal_uur    di_vm_reden di_nm_aantal_uur    di_nm_reden wo_vm_aantal_uur    wo_vm_reden wo_nm_aantal_uur
