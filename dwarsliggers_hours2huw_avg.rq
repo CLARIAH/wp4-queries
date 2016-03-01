@@ -1,0 +1,15 @@
+prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
+prefix bevvar: <http://data.socialhistory.org/resource/bev_clean/variable/>
+
+SELECT ?huw_st (AVG(xsd:integer(xsd:integer(?ma_vm_aantal_uur) + xsd:integer(?ma_nm_aantal_uur) + xsd:integer(?di_vm_aantal_uur) + xsd:integer(?di_nm_aantal_uur) + xsd:integer(?wo_vm_aantal_uur) + xsd:integer(?wo_nm_aantal_uur))) AS ?avg_weekuur)
+WHERE{
+    ?medewerker medvar:ma_vm_aantal_uur ?ma_vm_aantal_uur .
+    ?medewerker medvar:ma_nm_aantal_uur ?ma_nm_aantal_uur .
+    ?medewerker medvar:di_vm_aantal_uur ?di_vm_aantal_uur .
+    ?medewerker medvar:di_nm_aantal_uur ?di_nm_aantal_uur .
+    ?medewerker medvar:wo_vm_aantal_uur ?wo_vm_aantal_uur .
+    ?medewerker medvar:wo_nm_aantal_uur ?wo_nm_aantal_uur .
+    ?medewerker medvar:volgnr ?volgnr . 
+	?bevperson bevvar:medewerker ?volgnr .
+	?bevperson bevvar:huw_st ?huw_st .
+}
