@@ -1,3 +1,5 @@
+#+ summary: hours worked to marital status query
+
 prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
 prefix bevvar: <http://data.socialhistory.org/resource/bev_clean/variable/>
 

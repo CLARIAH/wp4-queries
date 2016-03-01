@@ -1,3 +1,5 @@
+#+ summary: avg. hours worked by marital status query
+
 prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
 prefix bevvar: <http://data.socialhistory.org/resource/bev_clean/variable/>
 
@@ -7,9 +9,12 @@ WHERE{
     ?medewerker medvar:ma_nm_aantal_uur ?ma_nm_aantal_uur .
     ?medewerker medvar:di_vm_aantal_uur ?di_vm_aantal_uur .
     ?medewerker medvar:di_nm_aantal_uur ?di_nm_aantal_uur .
-    ?medewerker medvar:wo_vm_aantal_uur ?wo_vm_aantal_uur .
-    ?medewerker medvar:wo_nm_aantal_uur ?wo_nm_aantal_uur .
+    ?medewerker medvar:di_nm_aantal_uur ?wo_nm_aantal_uur .
+    ?medewerker medvar:di_nm_aantal_uur ?wo_vm_aantal_uur .
+    BIND(xsd:integer(?ma_vm_aantal_uur) + xsd:integer(?ma_nm_aantal_uur) + xsd:integer(?di_vm_aantal_uur) + xsd:integer(?di_nm_aantal_uur) + xsd:integer(?wo_vm_aantal_uur) + xsd:integer(?wo_nm_aantal_uur) AS ?maandag) .
     ?medewerker medvar:volgnr ?volgnr . 
-	?bevperson bevvar:medewerker ?volgnr .
-	?bevperson bevvar:huw_st ?huw_st .
+    # OPTIONAL{
+        ?bevperson bevvar:medewerker ?volgnr .
+        ?bevperson bevvar:huw_st ?huw_st .        
+    # }
 }

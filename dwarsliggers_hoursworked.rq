@@ -1,3 +1,8 @@
+#+ summary: basic hours worked query
+#+ tags:
+#+      - dwarsliggers
+#+      - zandhuis
+
 prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
 
 SELECT ?volgnr ?weekuur
