@@ -1,0 +1,22 @@
+prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
+prefix bevvar: <http://data.socialhistory.org/resource/bev_clean/variable/>
+
+SELECT ?weekuur ?volgnr ?bevperson ?huw_st
+WHERE{
+    ?medewerker medvar:ma_vm_aantal_uur ?ma_vm_aantal_uur .
+    ?medewerker medvar:ma_nm_aantal_uur ?ma_nm_aantal_uur .
+    ?medewerker medvar:di_vm_aantal_uur ?di_vm_aantal_uur .
+    ?medewerker medvar:di_nm_aantal_uur ?di_nm_aantal_uur .
+    ?medewerker medvar:wo_vm_aantal_uur ?wo_vm_aantal_uur .
+    ?medewerker medvar:wo_nm_aantal_uur ?wo_nm_aantal_uur .
+    BIND(?ma_vm_aantal_uur + ?ma_nm_aantal_uur + ?di_vm_aantal_uur + ?di_nm_aantal_uur + ?wo_vm_aantal_uur + ?wo_nm_aantal_uur AS ?weekuur) .
+    ?medewerker medvar:volgnr ?volgnr
+    OPTIONAL{
+        ?bevperson bevvar:medewerker ?volgnr.
+        ?bevperson bevvar:huw_st ?huw_st.
+  }
+}
+
+
+
+# ma_vm_aantal_uur    ma_vm_reden ma_nm_aantal_uur    ma_nm_reden di_vm_aantal_uur    di_vm_reden di_nm_aantal_uur    di_nm_reden wo_vm_aantal_uur    wo_vm_reden wo_nm_aantal_uur
