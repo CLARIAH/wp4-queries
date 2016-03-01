@@ -1,0 +1,11 @@
+prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
+prefix bevvar: <http://data.socialhistory.org/resource/bev_clean/variable/>
+
+SELECT  ?medperson ?volgnr ?huw_st
+WHERE{
+   ?medperson medvar:volgnr ?volgnr .
+  OPTIONAL{
+     ?bevperson bevvar:medewerker ?volgnr.
+    ?bevperson bevvar:huw_st ?huw_st
+  }
+}
