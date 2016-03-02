@@ -1,3 +1,8 @@
+#+ summary: basic cross-dataset query joined by ?volgnr
+#+ tags:
+#+      - dwarsliggers
+#+      - zandhuis
+
 prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
 prefix bevvar: <http://data.socialhistory.org/resource/bev_clean/variable/>
 
