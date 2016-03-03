@@ -1,0 +1,14 @@
+#+ summary: provide all raw titles for a HISCO code (83110)
+#+ tags:
+#+      - hisco
+#+      - hisco_hsn
+
+prefix category: <http://data.socialhistory.org/vocab/hisco/category/>
+prefix hisco: <http://data.socialhistory.org/vocab/hisco/>
+
+SELECT ?raw_title FROM
+<http://localhost:8890/DAV>
+WHERE {
+category:83110 skos:hiddenLabel ?raw_title .
+
+} LIMIT 100
