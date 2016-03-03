@@ -15,8 +15,8 @@ fit_sweden <- lm(log(hiscam) ~ log(gdppc) + I(age^2) + age, data=sweden)
 
 texreg::texreg(list(fit_canada, fit_sweden))
 
-pdf('~/dropbox/files attached directly to project/presentations/usecaseplots.pdf', height=3, width=8)
-par(mfrow=c(1, 4), mar=c(4, 4, 3, 0.5))
+pdf('~/dropbox/files attached directly to project/presentations/usecaseplots.pdf', height=3, width=10)
+par(mfrow=c(1, 4), mar=c(4, 4, 3, 0))
 d <- aggregate(hiscam ~ year + gdppc + age, data=canada, mean)
 d <- d[order(d$year), ]
 plot(log(hiscam) ~ age, data=d, bty='l', type='b', col='red', main='Canada')
