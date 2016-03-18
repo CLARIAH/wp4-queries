@@ -1,14 +1,8 @@
-#+ summary: provide all raw titles for a HISCO code (83110)
-#+ tags:
-#+      - hisco
-#+      - hisco_hsn
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-prefix category: <http://data.socialhistory.org/vocab/hisco/category/>
-prefix hisco: <http://data.socialhistory.org/vocab/hisco/>
-
-SELECT ?raw_title FROM
-<http://localhost:8890/DAV>
+SELECT DISTINCT ?s ?p
 WHERE {
-category:83110 skos:hiddenLabel ?raw_title .
-
-} LIMIT 100
+  ?s skos:broaderTransitive ?p . 
+} 
+LIMIT 10
