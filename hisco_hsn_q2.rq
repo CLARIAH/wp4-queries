@@ -1,0 +1,13 @@
+# list all predicates
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?s ?p
+
+FROM <http://virtuoso.clariah-sdh.eculture.labs.vu.nl/sparql>
+
+WHERE {
+  ?s skos:broaderTransitive ?p . 
+} 
+LIMIT 10
