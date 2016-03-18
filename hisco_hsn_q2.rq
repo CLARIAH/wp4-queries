@@ -5,7 +5,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT ?s ?p
 
-FROM <http://virtuoso.clariah-sdh.eculture.labs.vu.nl/sparql>
+FROM <http://qber.data2semantics.org/vocab/ocs/hisco/>
 
 WHERE {
   ?s skos:broaderTransitive ?p . 
