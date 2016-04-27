@@ -1,0 +1,23 @@
+#+ summary: variables in mosaic data
+#+ tags:
+#+      - mosaic
+#+      - patriarchy
+#+      - female heads of household
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mosaicvrb: <http://data.socialhistory.org/ns/resource/variable/>
+PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
+PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
+
+SELECT ?head (COUNT(?women) as ?n_women)
+FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/477126e3/2016-04-19T12:04> 
+WHERE {
+    ?women mosaicvrb:sex sex:female .
+    ?women mosaicvrb:relate ?relate .
+    ?women mosaicvrb:age ?age .
+    BIND(xsd:int(STRAFTER(STR(?age), "age/")) AS ?age_numeric) .
+    FILTER(?age_numeric > 20).
+    bind(if(contains(str(?relate), "head"), "head", "not head") as ?head)
+}
+GROUP BY(?head)
