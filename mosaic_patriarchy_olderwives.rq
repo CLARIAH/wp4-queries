@@ -27,6 +27,6 @@ WHERE {
     filter(contains(str(?relate), 'head')) .
     BIND(xsd:int(STRAFTER(STR(?menage), "age/")) AS ?menage_numeric) .
 
-    bind(if(?womenage_numeric - ?menage_numeric < 0, "older wife", "younger wife") as ?olderwife) .
+    bind(if(?womenage_numeric - ?menage_numeric > 0, "older wife", "younger wife") as ?olderwife) .
 }
 group by(?olderwife)
