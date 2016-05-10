@@ -1,0 +1,35 @@
+#+ summary: men > 65b with married sons in mosaic data
+#+ tags:
+#+      - mosaic
+#+      - patriarchy
+#+      - old men
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mosaicvrb: <http://data.socialhistory.org/ns/resource/variable/>
+PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
+PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
+
+SELECT (count(distinct ?men) as ?n_men) ?any_married
+FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/7c710f8b/2016-04-26T18:19> 
+WHERE{
+    ?men mosaicvrb:sex sex:male .
+    ?men mosaicvrb:age ?age .
+    filter(xsd:int(strafter(str(?age), 'age/')) >= 65) .
+    ?men mosaicvrb:relate relate:head_or_householder .
+    ?men mosaicvrb:id_hhold ?hhid .
+    optional{
+        select (max(?married) as ?any_married) ?hhid{
+        ?son mosaicvrb:id_hhold ?hhid .
+        ?son mosaicvrb:relate relate:child .
+        ?son mosaicvrb:sex sex:male .
+        ?son mosaicvrb:marst ?marst .
+        bind(if(contains(str(?marst), 'never'), 0, 1) as ?married) .
+        # 380 men > 65 head in total
+        # but 491 with optional because multiple sons, add distinct to get 380 again
+        # but varying marst in hh makes if 407 again...
+        # 337 w/o optional because some men w/o son
+        # so needs full select and merge on hhid
+        }
+    }
+}
