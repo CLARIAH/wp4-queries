@@ -1,0 +1,28 @@
+#+ summary: count female heads of households in napp and mosaic
+#+ tags:
+#+      - mosaic
+#+      - napp
+#+      - cross-dataset
+#+      - patriarchy
+#+      - female heads of household
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mosaicvrb: <http://data.socialhistory.org/ns/resource/variable/>
+PREFIX mosaicxtr: <http://data.socialhistory.org/ns/resource/variable/extra/>
+PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
+PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
+prefix mosaic-country: <http://data.socialhistory.org/ns/resource/variable/country/>
+prefix napp-country: <http://data.socialhistory.org/resource/napp/CNTRY/>
+
+SELECT (COUNT(?women) as ?n_women) ?country
+WHERE {
+    ?women (napp-dimension:CNTRY|mosaicvrb:country) ?country .
+    filter(?country = mosaic-country:Hungary || ?country = napp-country:124) .
+    
+    ?women (mosaicxtr:age_num|napp-dimension:AGE) ?age .
+    FILTER(?age > 20) .
+
+    ?women (mosaicvrb:sex|napp-dimension:SEX)/skos:exactMatch* sex:female .
+    ?women (mosaicvrb:relate|napp-dimension:RELATE)/skos:exactMatch* relate:head_or_householder .
+}
