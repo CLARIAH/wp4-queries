@@ -1,0 +1,39 @@
+#+ summary: multiple patriarchy subqueries combined
+#+ tags:
+#+      - mosaic
+#+      - patriarchy
+#+      - female heads of household
+#+      - female non-kin
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mosaicvrb: <http://data.socialhistory.org/ns/resource/variable/>
+PREFIX mosaicxtr: <http://data.socialhistory.org/ns/resource/variable/extra/>
+PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
+PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
+
+SELECT ?head (COUNT(?women) as ?n_femalehead) ?n_femalekin ?kin ?country
+FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/7c710f8b/2016-04-26T18:19> 
+
+WHERE {
+    {?women mosaicvrb:sex sex:female .
+    ?women mosaicvrb:country ?country .
+    ?women mosaicxtr:age_num ?age .
+    FILTER(?age > 20).
+    
+    ?women mosaicvrb:relate ?relate .
+    BIND(IF(?relate = relate:head_or_householder, "head", "not head") as ?head)
+    } UNION {
+        SELECT  ?kin (COUNT(?women) as ?n_femalekin) ?country
+        WHERE {
+            ?women mosaicvrb:sex sex:female .
+            ?women mosaicvrb:country ?country .
+            ?women mosaicxtr:age_num ?age .
+            FILTER(?age >= 20 && ?age <= 34) .
+            
+            ?women mosaicvrb:relate ?relate .
+            BIND(if(regex(str(?relate), '(maid|room|lodg|empl|app|maid|cook|non)'), 'non kin', 'kin') as ?kin) .
+        }
+    }
+}
+ORDER BY ?country ?head ?kin 
