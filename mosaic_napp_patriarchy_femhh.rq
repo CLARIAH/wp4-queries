@@ -16,13 +16,16 @@ prefix mosaic-country: <http://data.socialhistory.org/ns/resource/variable/count
 prefix napp-country: <http://data.socialhistory.org/resource/napp/CNTRY/>
 
 SELECT (COUNT(?women) as ?n_women) ?country
+FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
+# FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/7c710f8b/2016-04-26T18:19> 
+
 WHERE {
     ?women (napp-dimension:CNTRY|mosaicvrb:country) ?country .
-    filter(?country = mosaic-country:Hungary || ?country = napp-country:124) .
+    filter(?country = mosaic-country:Hungary || ?country = napp-country:124)
     
     ?women (mosaicxtr:age_num|napp-dimension:AGE) ?age .
     FILTER(?age > 20) .
 
     ?women (mosaicvrb:sex|napp-dimension:SEX)/skos:exactMatch* sex:female .
-    ?women (mosaicvrb:relate|napp-dimension:RELATE)/skos:exactMatch* relate:head_or_householder .
+    # ?women (mosaicvrb:relate|napp-dimension:RELATE)/skos:exactMatch* ?relate
 }

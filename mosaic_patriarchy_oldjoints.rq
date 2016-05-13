@@ -7,15 +7,17 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX mosaicvrb: <http://data.socialhistory.org/ns/resource/variable/>
+PREFIX mosaicxtr: <http://data.socialhistory.org/ns/resource/variable/extra/>
 PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
 PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
 
 SELECT (count(DISTINCT ?men) AS ?n_men) ?any_married
 FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/7c710f8b/2016-04-26T18:19> 
+
 WHERE{
     ?men mosaicvrb:sex sex:male .
-    ?men mosaicvrb:age ?age .
-    FILTER(xsd:int(STRAFTER(STR(?age), 'age/')) >= 65) .
+    ?men mosaicxtr:age_num ?age .
+    FILTER(?age >= 65) .
 
     ?men mosaicvrb:relate relate:head_or_householder .
     ?men mosaicvrb:id_hhold ?hhid .

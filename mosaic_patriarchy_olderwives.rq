@@ -7,26 +7,25 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX mosaicvrb: <http://data.socialhistory.org/ns/resource/variable/>
+PREFIX mosaicxtr: <http://data.socialhistory.org/ns/resource/variable/extra/>
 PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
 PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
 PREFIX head: <http://data.socialhistory.org/ns/resource/variable/head/>
 
 SELECT ?olderwife (count(?women) as ?n_women)
-FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/477126e3/2016-04-19T12:04> 
+FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/7c710f8b/2016-04-26T18:19> 
+
 WHERE {
     ?women mosaicvrb:id_hhold ?id_hhold .
     ?women mosaicvrb:sex sex:female .
     ?women mosaicvrb:relate relate:spouse .
-    ?women mosaicvrb:age ?womenage .
-    BIND(xsd:int(STRAFTER(STR(?womenage), "age/")) AS ?womenage_numeric) .
+    ?women mosaicxtr:age_num ?womenage .
 
     ?men mosaicvrb:id_hhold ?id_hhold .
     ?men mosaicvrb:sex sex:male .
     ?men mosaicvrb:relate ?relate .
-    ?men mosaicvrb:age ?menage .
-    filter(contains(str(?relate), 'head')) .
-    BIND(xsd:int(STRAFTER(STR(?menage), "age/")) AS ?menage_numeric) .
+    ?men mosaicxtr:age_num ?menage .
+    ?men mosaicvrb:relate relate:head_or_householder .
 
-    bind(if(?womenage_numeric - ?menage_numeric > 0, "older wife", "younger wife") as ?olderwife) .
+    bind(if(?womenage - ?menage > 0, "older wife", "younger wife") as ?olderwife) .
 }
-group by(?olderwife)
