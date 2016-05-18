@@ -1,6 +1,8 @@
 # list all religions - now with skos:prefLabel and rdf:value 
 
 PREFIX candim: <http://data.socialhistory.org/vocab/canfam/dimension/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT DISTINCT ?religion ?prefLabel ?religionvalue
 
