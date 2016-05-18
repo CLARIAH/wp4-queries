@@ -14,6 +14,8 @@ PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
 PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
 prefix mosaic-country: <http://data.socialhistory.org/ns/resource/variable/country/>
 prefix napp-country: <http://data.socialhistory.org/resource/napp/CNTRY/>
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT (COUNT(?women) as ?n_women) ?country
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
