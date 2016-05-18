@@ -11,6 +11,12 @@
 
 
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
+PREFIX sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT DISTINCT ?birthyear ?gdp ?mean_occstatus
 
