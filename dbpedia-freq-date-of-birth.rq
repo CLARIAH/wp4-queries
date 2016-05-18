@@ -1,8 +1,7 @@
 #+ summary: Query for birth years of persons in DBpedia uptil now
+#+ endpoint: http://dbpedia.org/sparql
 #+ tags:
 #+      - DBpedia
-
-# endpoint is http://dbpedia.org/sparql
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
