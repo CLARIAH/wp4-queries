@@ -1,6 +1,8 @@
 PREFIX relate: <http://data.socialhistory.org/resource/napp/RELATE/>
 PREFIX urban: <http://data.socialhistory.org/resource/napp/URBAN/>
 PREFIX sex: <http://data.socialhistory.org/resource/napp/SEX/>
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?householdID ?personID ?urban_area ?region ?male ?age_child ?enrolled ?agen_head ?occupation_father ?agen_mother ?occupation_mother ?n_servants ?nchildren ?ageoldestchild ?n_older_siblings ?birth_order 
 
