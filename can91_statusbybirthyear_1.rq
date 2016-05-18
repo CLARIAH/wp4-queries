@@ -4,6 +4,12 @@
 
 # occhisco to hisco to hiscam
 
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
+PREFIX hiscam: <http://data.socialhistory.org/vocab/hiscam/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+
 SELECT *
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
