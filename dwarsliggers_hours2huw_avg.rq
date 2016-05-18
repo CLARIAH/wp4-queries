@@ -5,6 +5,7 @@
 
 prefix medvar: <http://data.socialhistory.org/resource/med_clean/variable/>
 prefix bevvar: <http://data.socialhistory.org/resource/bev_clean/variable/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?huw_st (AVG(?uren_week) AS ?avguur)
 WHERE{
