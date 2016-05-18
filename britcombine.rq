@@ -2,6 +2,7 @@
 # note that age in scotlang != integer, hence the bind
 
 PREFIX nappdim: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT (COUNT(?brit) AS ?nbrits) ?nage
 
