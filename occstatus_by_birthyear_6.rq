@@ -1,5 +1,7 @@
 # little test-query to see how to filter/minus on literal
 
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+
 SELECT DISTINCT ?age
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/englandwales1881> 
