@@ -5,6 +5,16 @@
 # get average hiscam value and gdp in that birthyear 
 # for sumstats or visualisation
 
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
+PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
+PREFIX hiscam: <http://data.socialhistory.org/vocab/hiscam/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+
 SELECT AVG(?hiscam) AS ?meanhiscam ?year ?gdppc
 
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
