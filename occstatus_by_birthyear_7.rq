@@ -4,6 +4,8 @@
 
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
 PREFIX age: <http://data.socialhistory.org/resource/napp/AGE/>
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT (AVG(?occstatus) as ?mean_occstatus)  ?birthyear
 
