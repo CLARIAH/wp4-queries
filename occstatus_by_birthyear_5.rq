@@ -4,6 +4,8 @@
 # alternative: FILTER NOT EXISTS {?s napp-dimension:ORDERGB ordergb:24}
 
 PREFIX ordergb: <http://data.socialhistory.org/resource/napp/ORDERGB/>
+PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 SELECT DISTINCT ?occstatus ?ordergb
 
