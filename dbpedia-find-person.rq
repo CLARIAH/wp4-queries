@@ -1,4 +1,5 @@
 #+ summary: Query for a specific person (Posthumus) 
+#+ endpoint: http://dbpedia.org/sparql
 #+ tags:
 #+      - DBpedia
 
