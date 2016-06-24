@@ -1,0 +1,20 @@
+#+ summary: IDS query age at death on SEDD data
+#+ tags:
+#+      - IDS
+#+      - SEDD
+#+      - life expectancy
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ids: <http://data.socialhistory.org/ns/resource/ids/>
+PREFIX lode: <http://linkedevents.org/ontology/>
+
+SELECT * FROM 
+<http://data.socialhistory.org/ns/resource/ids_test_direct>
+WHERE {
+    ?person ids:BirthDate ?bday .
+    ?person ids:DeathDate ?dday .
+    ?bday lode:atTime ?bdaydate .
+    ?dday lode:atTime ?ddaydate .
+    BIND((?ddaydate - ?bdaydate)/(60*60*24*365.25) AS ?age) .
+} 
