@@ -15,11 +15,11 @@ FROM <http://iisg.amsterdam/graph/hisco/open/v3/>
 WHERE { 
   ?entry skos:member entry:entryCollection .
     OPTIONAL {?hisco skos:prefLabel ?label} 
-      OPTIONAL {?entry skos:closeMatch ?hisco}
-        OPTIONAL {?hisco skos:definition ?description}
-          OPTIONAL {?entry prov:wasQuotedFrom ?source}
-            FILTER(lang(?label) = "en") 
-            # change language: e.g. "se" for Swedish
+    OPTIONAL {?entry skos:closeMatch ?hisco}
+    OPTIONAL {?hisco skos:definition ?description}
+    OPTIONAL {?entry prov:wasQuotedFrom ?source}
+    # change language: e.g. "se" for Swedish
+    FILTER(lang(?label) = "en") 
 } 
 
 LIMIT 100
