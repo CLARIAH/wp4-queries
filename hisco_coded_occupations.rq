@@ -1,0 +1,25 @@
+#+ summary: query occupations coded in HISCO and their characteristics 
+#+ tags:
+#+      - hisco
+
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
+PREFIX entry: <http://data.socialhistory.org/vocab/hisco/entry/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+## show all community coded entries for a given hisco
+## limited to a specific language
+
+SELECT DISTINCT ?entry ?label ?hisco ?description ?source
+FROM <http://iisg.amsterdam/graph/hisco/open/v3/> 
+WHERE { 
+  ?entry skos:member entry:entryCollection .
+    OPTIONAL {?hisco skos:prefLabel ?label} 
+      OPTIONAL {?entry skos:closeMatch ?hisco}
+        OPTIONAL {?hisco skos:definition ?description}
+          OPTIONAL {?entry prov:wasQuotedFrom ?source}
+            FILTER(lang(?label) = "en") 
+            # change language: e.g. "se" for Swedish
+} 
+
+LIMIT 100
