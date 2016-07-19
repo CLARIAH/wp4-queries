@@ -20,7 +20,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT ?occhisco ?hisco ?hiscam ?gdppc ?year ?age
 FROM <http://data.socialhistory.org/resource/napp/dataset/sweden1890>
 FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
-FROM <http://data.socialhistory.org/vocab/hisco/>
+FROM <http://iisg.amsterdam/graph/hisco/open/v3/> 
 FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2016-01-21T16:30:48.081802>
 WHERE {
     # get right clio data and year for right country
