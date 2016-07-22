@@ -1,0 +1,28 @@
+summary: for a given occupations all spelling variants + hisco code 
+#+ tags:
+#+      - hisco
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
+PREFIX entry: <http://data.socialhistory.org/vocab/hisco/entry/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+## show all coded spelling variants for a given occupation
+
+SELECT DISTINCT *
+FROM <http://iisg.amsterdam/graph/hisco/open/v3/> 
+WHERE { 
+  ?entry skos:member entry:entryCollection . # entries in occupational fields are not always occupations
+  ?entry skos:hiddenLabel ?raw_label . # all entries have a hiddenLabel
+  ?entry skos:closeMatch ?hisco . # 
+  OPTIONAL {?entry skos:prefLabel ?std_label} # some entries have a standardized label as well
+  FILTER(STR(?std_label) = "bakker")
+  OPTIONAL {?hisco skos:definition ?description} # definition refers to historyofwork.iisg.nl site due to copyrights
+  OPTIONAL {?entry prov:wasQuotedFrom ?source}
+} 
+LIMIT 100
+
+
+
+
