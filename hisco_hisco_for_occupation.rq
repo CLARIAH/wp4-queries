@@ -1,0 +1,19 @@
+summary: give the HISCO category for a given occupation
+#+ tags:
+#+      -hisco
+
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
+PREFIX entry: <http://data.socialhistory.org/vocab/hisco/entry/>
+PREFIX category: <http://data.socialhistory.org/vocab/hisco/category/>
+
+SELECT DISTINCT *
+FROM <http://iisg.amsterdam/graph/hisco/open/v3/> 
+WHERE { 
+  ?entry skos:member entry:entryCollection . # entries in occupational fields are not always occupations
+  ?entry skos:hiddenLabel ?raw_label . # all entries have a hiddenLabel
+  ?entry skos:closeMatch ?hisco .  
+  ?hisco skos:definition ?definition .
+  FILTER regex(?raw_label, "^butcher", "i") .
+} 
+LIMIT 10
