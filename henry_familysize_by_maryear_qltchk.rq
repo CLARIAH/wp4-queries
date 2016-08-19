@@ -1,0 +1,18 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX henry: <http://data.socialhistory.org/ns/resource/henry/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT AVG(?n_child) ?decade_marriage ?obs_quality_lbld
+WHERE{
+    SELECT (COUNT(?child) AS ?n_child) ?parent ?decade_marriage ?obs_quality_lbld
+    FROM <http://data.socialhistory.org/ns/resource/henry_test>
+    WHERE {
+        ?parent henry:CHILD ?child .
+        ?parent henry:AN_MA ?year_marriage .
+        BIND(FLOOR(?year_marriage / 10) * 10 AS ?decade_marriage) .
+        ?parent henry:PAREN_MA ?obs_quality . 
+        ?obs_quality skos:prefLabel ?obs_quality_lbld .
+    }
+}
+ORDER BY ASC(?decade_marriage) ASC(?obs_quality_lbld)
