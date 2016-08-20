@@ -1,3 +1,9 @@
+#+ summary: family size by marriage year with observational quality
+#+ tags:
+#+    - henry
+#+    - life events
+#+    - codebook integration
+
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX henry: <http://data.socialhistory.org/ns/resource/henry/>
