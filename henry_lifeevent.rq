@@ -11,7 +11,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT * WHERE {
     ?parent henry:AN_NA_MA ?birthyear .
     ?parent ?pred ?year2 .
-    # ?pred skos:definition ?_name_en
-    ?pred skos:definition "year of the death of the husband"@en
+    ?pred skos:definition ?_name_en
+    # ?pred skos:definition "year of the death of the husband"@en
     BIND(?year2 - ?birthyear AS ?age)
 }
