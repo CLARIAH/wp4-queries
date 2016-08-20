@@ -10,9 +10,9 @@ PREFIX henry: <http://data.socialhistory.org/ns/resource/henry/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT AVG(?n_child) ?decade_marriage ?obs_quality_lbld
+FROM <http://data.socialhistory.org/ns/resource/henry_test>
 WHERE{
     SELECT (COUNT(?child) AS ?n_child) ?parent ?decade_marriage ?obs_quality_lbld
-    FROM <http://data.socialhistory.org/ns/resource/henry_test>
     WHERE {
         ?parent henry:CHILD ?child .
         ?parent henry:AN_MA ?year_marriage .

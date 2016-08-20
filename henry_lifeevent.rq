@@ -8,7 +8,9 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX henry: <http://data.socialhistory.org/ns/resource/henry/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
-SELECT * WHERE {
+SELECT * 
+FROM <http://data.socialhistory.org/ns/resource/henry_test>
+WHERE {
     ?parent henry:AN_NA_MA ?birthyear .
     ?parent ?pred ?year2 .
     ?pred skos:definition ?_name_en
