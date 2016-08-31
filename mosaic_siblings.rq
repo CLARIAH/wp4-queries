@@ -1,0 +1,27 @@
+#+ summary: brother-sister pairs in mosaic with ages
+#+ tags:
+#+      - mosaic
+#+      - siblings
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mosaicvrb: <http://data.socialhistory.org/ns/resource/variable/>
+PREFIX mosaicxtr: <http://data.socialhistory.org/ns/resource/variable/extra/>
+PREFIX sex: <http://data.socialhistory.org/ns/resource/variable/sex/>
+PREFIX relate: <http://data.socialhistory.org/ns/resource/variable/relate/>
+
+SELECT  *
+FROM <http://data.socialhistory.org/ns/vocab/datafile_152_version_1_0_labels_clean/assertion/7c710f8b/2016-04-26T18:19> 
+WHERE {
+    ?son mosaicvrb:id_hhold ?id_hhold  .
+    ?son mosaicvrb:relate relate:child.
+    ?son mosaicvrb:sex sex:male.
+    ?son mosaicxtr:age_num ?sonage .
+  
+    ?daughter mosaicvrb:id_hhold ?id_hhold  .
+    ?daughter mosaicvrb:relate relate:child.
+    ?daughter mosaicvrb:sex sex:female .
+    ?daughter mosaicxtr:age_num ?daughterage .
+}
+ORDER BY ?id_hhold
+LIMIT 10
