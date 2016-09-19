@@ -1,0 +1,29 @@
+#+ summary: henry query with contextual info from guerry data
+#+ tags:
+#+    - cross-dataset
+#+    - henry
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX henry: <http://data.socialhistory.org/ns/resource/henry/>
+PREFIX guerry: <http://data.socialhistory.org/resource/>
+
+SELECT ?department_name ?literacy_dept ?signature_fem_lbl COUNT(?parent)
+FROM <http://data.socialhistory.org/ns/resource/henry_test> 
+FROM <http://data.socialhistory.org/resource/guerry/assertion/8320f1f9/2016-09-06T11:00>
+WHERE {
+  ?parent henry:VILLAGE ?obj .
+  ?parent henry:SI_MA_FE ?signature_fem .
+  ?signature_fem rdfs:comment ?signature_fem_lbl .
+
+  ?obj henry:DEP ?department .
+  BIND(xsd:int(STRAFTER(STR(?department), "DEP/")) AS ?dep_nmbr)
+
+  OPTIONAL {
+    ?dept guerry:Literacy ?literacy_dept .
+
+    ?dept <http://data.socialhistory.org/resource/Department> ?department_name .
+    BIND(xsd:int(STRAFTER(STR(?dept), "dept/")) as ?dep_nmbr) .
+  }
+}
+ORDER BY DESC(?literacy_dept)
