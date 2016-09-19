@@ -6,11 +6,11 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-prefix clio: <http://data.socialhistory.org/resource/clio/>
-prefix cliomsr: <http://data.socialhistory.org/resource/clio/measure/>
-prefix sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
-select ?year ?educ
+PREFIX clio: <http://data.socialhistory.org/resource/clio/>
+PREFIX cliomsr: <http://data.socialhistory.org/resource/clio/measure/>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
 
+SELECT ?year ?educ
 FROM <http://data.socialhistory.org/ns/resource/Average_years_education-historical/assertion/0ba1f4de/2016-08-25T14:25> 
 WHERE {
     ?obs sdmxdim:refArea ?_country . 
