@@ -8,7 +8,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX henry: <http://data.socialhistory.org/ns/resource/henry/>
 PREFIX guerry: <http://data.socialhistory.org/resource/>
 
-SELECT ?department_name ?literacy_dept ?signature_fem_lbl COUNT(?parent)
+SELECT ?department_name ?literacy_dept ?signature_fem_lbl (COUNT(?parent) AS ?n_parents)
 FROM <http://data.socialhistory.org/ns/resource/henry_test> 
 FROM <http://data.socialhistory.org/resource/guerry/assertion/8320f1f9/2016-09-06T11:00>
 WHERE {
