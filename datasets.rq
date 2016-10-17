@@ -1,0 +1,23 @@
+#+ summary: All datasets in the hub and their provenance
+#+ tags:
+#+      - overview
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX np: <http://www.nanopub.org/nschema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT DISTINCT ?assertion ?assertion_time ?person ?dataset ?source WHERE {
+  GRAPH ?assertion {
+  	?dataset a qb:DataSet .
+  }
+  OPTIONAL {
+    ?np np:hasAssertion ?assertion .
+    ?np np:hasProvenance ?provenance .
+    GRAPH ?provenance {
+      ?assertion prov:wasAttributedTo ?person .
+      ?assertion prov:wasDerivedFrom ?source .
+      ?assertion prov:generatedAtTime ?assertion_time .
+    }
+  }
+} ORDER BY ?person
