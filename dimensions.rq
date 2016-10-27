@@ -11,11 +11,12 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX example: <http://www.example.org/rdf#>
 PREFIX qb: <http://purl.org/linked-data/cube#>
 
-SELECT DISTINCT ?source_dataset ?source_dimension WHERE {
+SELECT DISTINCT ?source_dimension ?dimension_value WHERE {
 {
   ?source_np np:hasAssertion ?source_assertion .
   GRAPH ?source_assertion {
-   ?source_dataset qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension .
+   ?_source_dataset qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension .
+   ?observation ?source_dimension ?dimension_value .
   }
 }
 UNION
