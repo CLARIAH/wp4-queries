@@ -31,4 +31,4 @@ UNION
 {
   ?source_dimension a qb:CodedProperty .
 }
-} GROUP BY ?source_dimension LIMIT 1000
+} GROUP BY ?source_dimension ORDER BY DESC(?count)
