@@ -11,7 +11,9 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX example: <http://www.example.org/rdf#>
 PREFIX qb: <http://purl.org/linked-data/cube#>
 
-SELECT DISTINCT ?source_dimension (COUNT(DISTINCT ?dimension_value) AS ?count) (MIN(?dimension_value) AS ?min) (MAX(?dimension_value) AS ?max) WHERE {
+SELECT DISTINCT ?source_dimension (COUNT(DISTINCT ?dimension_value) AS ?count) (MIN(?dimension_value) AS ?min) (MAX(?dimension_value) AS ?max) 
+# (AVG(?dimension_value) AS ?avg)
+WHERE {
 {
   ?source_np np:hasAssertion ?source_assertion .
   GRAPH ?source_assertion {
