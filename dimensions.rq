@@ -15,7 +15,7 @@ SELECT DISTINCT ?source_dimension ?dimension_value WHERE {
 {
   ?source_np np:hasAssertion ?source_assertion .
   GRAPH ?source_assertion {
-   ?_source_dataset qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension .
+   ?source_dataset qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension .
    ?observation ?source_dimension ?dimension_value .
   }
 }
