@@ -37,4 +37,4 @@ UNION
   ?source_dimension a qb:CodedProperty .
   ?source_dimension rdfs:label ?dim_lbl .
 }
-} GROUP BY ?source_dimension ORDER BY DESC(?count)
+} GROUP BY ?source_dimension ?dim_lbl ORDER BY DESC(?count)
