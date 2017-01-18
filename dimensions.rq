@@ -11,7 +11,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX example: <http://www.example.org/rdf#>
 PREFIX qb: <http://purl.org/linked-data/cube#>
 
-SELECT DISTINCT ?source_dimension (COUNT(DISTINCT ?dimension_value) AS ?count) (MIN(?dimension_value) AS ?min) (MAX(?dimension_value) AS ?max) 
+SELECT DISTINCT ?source_dimension ?dim_lbl (COUNT(DISTINCT ?dimension_value) AS ?count) (MIN(?dimension_value) AS ?min) (MAX(?dimension_value) AS ?max) 
 # (AVG(?dimension_value) AS ?avg)
 WHERE {
 {
@@ -19,18 +19,22 @@ WHERE {
   GRAPH ?source_assertion {
    ?_sourcedataset_iri qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension .
    ?observation ?source_dimension ?dimension_value .
+   ?source_dimension rdfs:label ?dim_lbl .
   }
 }
 UNION
 {
    ?source_dimension a qb:DimensionProperty .
+   ?source_dimension rdfs:label ?dim_lbl .
 }
 UNION
 {
   ?source_dimension a qb:MeasureProperty .
+  ?source_dimension rdfs:label ?dim_lbl .
 }
 UNION
 {
   ?source_dimension a qb:CodedProperty .
+  ?source_dimension rdfs:label ?dim_lbl .
 }
 } GROUP BY ?source_dimension ORDER BY DESC(?count)
