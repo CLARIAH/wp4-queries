@@ -11,24 +11,34 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX example: <http://www.example.org/rdf#>
 PREFIX qb: <http://purl.org/linked-data/cube#>
 
-SELECT DISTINCT ?source_dimension ?dim_lbl  
+SELECT DISTINCT ?source_dimension_a ?dim_lbl_a ?source_dimension_b ?dim_lbl_b  
 WHERE {
 {
   ?source_np np:hasAssertion ?source_assertion .
   GRAPH ?source_assertion {
-   ?_sourcedataset_iri qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension .
-   ?observation ?source_dimension ?dimension_value .
-   ?source_dimension rdfs:label ?dim_lbl .
+   ?_sourcedataset_iri qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension_a .
+   ?observation_a ?source_dimension_a ?dimension_value_a .
+   ?source_dimension_a rdfs:label ?dim_lbl_a .
+
+   ?_sourcedataset_iri qb:structure/qb:component/(qb:dimension|qb:measure) ?source_dimension_b .
+   ?observation_b ?source_dimension_b ?dimension_value_b .
+   ?source_dimension_b rdfs:label ?dim_lbl_b .
   }
 }
 UNION
 {
-   ?source_dimension a qb:DimensionProperty .
-   ?source_dimension rdfs:label ?dim_lbl .
+   ?source_dimension_a a qb:DimensionProperty .
+   ?source_dimension_a rdfs:label ?dim_lbl_a .
+
+   ?source_dimension_b a qb:DimensionProperty .
+   ?source_dimension_b rdfs:label ?dim_lbl_b .
 }
 UNION
 {
-  ?source_dimension a qb:MeasureProperty .
-  ?source_dimension rdfs:label ?dim_lbl .
+  ?source_dimension_a a qb:MeasureProperty .
+  ?source_dimension_a rdfs:label ?dim_lbl_a .
+
+  ?source_dimension_b a qb:MeasureProperty .
+  ?source_dimension_b rdfs:label ?dim_lbl_b .
 }
-} GROUP BY ?source_dimension ?dim_lbl ORDER BY DESC(?count)
+}
