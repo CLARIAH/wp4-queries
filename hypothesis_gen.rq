@@ -10,7 +10,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX example: <http://www.example.org/rdf#>
 PREFIX qb: <http://purl.org/linked-data/cube#>
 
-SELECT DISTINCT ?source_dimension_a ?dim_lbl_a ?source_dimension_b ?dim_lbl_b  
+SELECT DISTINCT ?source_dimension_a ?dim_lbl_a ?source_dimension_b ?dim_lbl_b ?hypo 
 WHERE {
 {
   ?source_np np:hasAssertion ?source_assertion .
@@ -40,4 +40,5 @@ UNION
   ?source_dimension_b a qb:MeasureProperty .
   ?source_dimension_b rdfs:label ?dim_lbl_b .
 }
+BIND(CONCAT(?dim_lbl_a, ?dim_lbl_b) AS ?hypo)
 }
