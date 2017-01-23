@@ -1,0 +1,31 @@
+#+ summary: query occupations coded in HISCO and their characteristics 
+#+ tags:
+#+      - hisco
+#+      - hiscam
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX iish: <http://data.socialhistory.org/resource>
+PREFIX fmhisco: <http://data.socialhistory.org/resource/ForMarHISCO/>
+PREFIX hisco: <http://data.socialhistory.org/resource/hisco/>
+PREFIX hiscam: <http://data.socialhistory.org/resource/hiscam/>
+PREFIX v: <http://data.socialhistory.org/resource/hiscam/version/131/>
+
+
+## retrieve all occupations from a source and add hiscam scores
+SELECT DISTINCT ?occupation ?hisco ?hiscamversions ?value WHERE {
+      ?hisco skos:member ?occupation . 
+    fmhisco: skos:member ?occupation .
+    v:u3 skos:member ?hiscamversions .
+    ?hiscamversions hiscam:hisco ?hisco .
+      ?hiscamversions hiscam:value ?value . 
+} 
+LIMIT 100
+
