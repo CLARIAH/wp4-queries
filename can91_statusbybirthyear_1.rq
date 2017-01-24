@@ -6,20 +6,16 @@
 
 PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
-PREFIX hiscam: <http://data.socialhistory.org/vocab/hiscam/>
-PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX hiscam: <http://data.socialhistory.org/resource/hiscam/>
+PREFIX sdmxd: <http://purl.org/linked-data/sdmx/2009/dimension#>
 
 SELECT *
 
-FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
-FROM <http://data.socialhistory.org/vocab/hisco/>
-
 WHERE {
     ?person napp-dimension:OCCHISCO ?occhisco . 
-    ?occhisco (skos:closeMatch|skos:exactMatch) ?hisco .
-    ?hiscoentry hisco:hiscoCode ?hisco . 
-    ?hiscoentry hiscam:hiscamValue ?hiscam .
-    ?hiscoentry qb:refArea hiscam:CA
+    ?occhisco skos:exactMatch|skos:closeMathc ?hisco .
+    ?hiscam_entry hiscam:hisco ?hisco .
+    ?hiscam_entry hiscam:value ?hiscam .
+    ?hisco_in_hiscam sdmxd:refArea <http://sws.geonames.org/6251999/> .
 }
 LIMIT 100
