@@ -13,7 +13,7 @@ SELECT *
 
 WHERE {
     ?person napp-dimension:OCCHISCO ?occhisco . 
-    ?occhisco skos:exactMatch|skos:closeMathc ?hisco .
+    ?occhisco (skos:exactMatch|skos:closeMatch) ?hisco .
     ?hiscam_entry hiscam:hisco ?hisco .
     ?hiscam_entry hiscam:value ?hiscam .
     ?hisco_in_hiscam sdmxd:refArea <http://sws.geonames.org/6251999/> .
