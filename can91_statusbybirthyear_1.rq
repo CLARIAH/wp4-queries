@@ -11,11 +11,17 @@ PREFIX sdmxd: <http://purl.org/linked-data/sdmx/2009/dimension#>
 
 SELECT *
 
+FROM <http://data.socialhistory.org/resource/napp/dataset/canada1891>
+FROM <http://data.socialhistory.org/resource/occhisco2hisco/assertion/8b5a0fb3/2016-11-01T13:12>
+FROM <http://data.socialhistory.org/resource/hisco_45/assertion/0187d50d/2017-01-22T05:50>
+FROM <http://data.socialhistory.org/resource/hiscam_ca/assertion/58742daf/2016-12-05T10:54>
+
 WHERE {
     ?person napp-dimension:OCCHISCO ?occhisco . 
     ?occhisco (skos:exactMatch|skos:closeMatch) ?hisco .
     ?hiscam_entry hiscam:hisco ?hisco .
     ?hiscam_entry hiscam:value ?hiscam .
-    ?hisco_in_hiscam sdmxd:refArea <http://sws.geonames.org/6251999/> .
+    ?hiscam_entry sdmxd:refArea <http://sws.geonames.org/6251999/> .
 }
+ORDER BY ?person
 LIMIT 100
