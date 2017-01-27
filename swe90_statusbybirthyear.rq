@@ -1,45 +1,45 @@
-# occupational status by occupation in canada 1891
+# occupational status by occupation in sweden 1891
 # same as occstatus_by_birthyear from engwal 1881
-# but using slightly more involved occupational coding
 
 # combine person-level obs, occupational mapping, and gdp
 
 PREFIX napp-dimension: <http://data.socialhistory.org/vocab/napp/dimension/>
-PREFIX clioprop: <http://data.socialhistory.org/resource/clio/property/>
-PREFIX clioind: <http://data.socialhistory.org/resource/clio/indicator/>
+PREFIX cliomsr: <http://data.socialhistory.org/resource/clio/measure/>
+PREFIX clio: <http://data.socialhistory.org/resource/clio/>
 PREFIX clioctr: <http://data.socialhistory.org/resource/clio/country/>
 PREFIX hisco: <http://data.socialhistory.org/vocab/hisco/>
-PREFIX hiscam: <http://data.socialhistory.org/vocab/hiscam/>
-PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
-PREFIX sdmx-measure: <http://purl.org/linked-data/sdmx/2009/measure#>
-PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX hiscam: <http://data.socialhistory.org/resource/hiscam/>
+PREFIX sdmxd: <http://purl.org/linked-data/sdmx/2009/dimension#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
-SELECT ?occhisco ?hisco ?hiscam ?gdppc ?year ?age
+SELECT ?person ?occhisco ?hisco ?hiscam ?gdppc ?year ?age
+
 FROM <http://data.socialhistory.org/resource/napp/dataset/sweden1890>
-FROM <http://data.socialhistory.org/vocab/hisco/>
-FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2016-01-21T16:30:48.081802>
+FROM <http://data.socialhistory.org/resource/occhisco2hisco/assertion/8b5a0fb3/2016-11-01T13:12>
+FROM <http://data.socialhistory.org/resource/hisco_45/assertion/0187d50d/2017-01-22T05:50>
+FROM <http://data.socialhistory.org/resource/hiscam_se/assertion/fbf4a73e/2016-12-05T10:54>
+FROM <http://data.socialhistory.org/ns/resource/GDP_Capita-historical/assertion/fd2ce578/2016-08-25T14:25>
+
 WHERE {
-    # get right clio data and year for right country
-    ?dataset clioprop:indicator clioind:GDPPC1990GKD .
-    ?dataset sdmx-dimension:refArea clioctr:752 .
-    ?dataset sdmx-measure:obsValue ?gdppc .
-    ?dataset sdmx-dimension:refPeriod ?year .
-    FILTER(xsd:int(str(?year)) < 1891) .
-    
+    ?country cliomsr:GDP_per_Capita ?gdppc .
+    ?country sdmxd:refArea ?refarea . 
+    ?refarea clio:ccode clioctr:124.0 .
+    ?country sdmxd:refPeriod ?year .
+    BIND(xsd:int(str(?year)) AS ?iyear) .
+    FILTER(?iyear < 1878) .
+
     OPTIONAL{
-        # select variables of interest and filter out bad obs. from census
         ?person napp-dimension:AGE ?age .
         ?person napp-dimension:YEAR ?censusyear .        
         FILTER((?censusyear - ?age) = (xsd:int(str(?year))) && ?age != 999 && ?age > 12) .
         ?person napp-dimension:OCCHISCO ?occhisco .
         FILTER(?occhisco != 99999) . 
 
-        # occupational mapping
-        ?occhisco (skos:closeMatch | skos:exactMatch) ?hisco .
-        ?hiscoentry hisco:hiscoCode ?hisco . 
-        ?hiscoentry hiscam:hiscamValue ?hiscam .
-        ?hiscoentry qb:refArea hiscam:SE . 
-        
+        ?occhisco (skos:exactMatch|skos:closeMatch) ?hisco .
+        ?hiscam_entry hiscam:hisco ?hisco .
+        ?hiscam_entry hiscam:value ?hiscam .
+        ?hiscam_entry sdmxd:refArea <http://sws.geonames.org/2661886/> .
     }
 } 
+ORDER BY ?person
+LIMIT 100
