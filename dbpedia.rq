@@ -15,5 +15,5 @@ SELECT ?date COUNT(*)
 WHERE {
    ?p rdf:type foaf:Person .
    ?p dbo:birthDate ?date . 
-FILTER(datatype(?date) = xsd:date && ?date < NOW)
+FILTER(datatype(?date) = xsd:date && ?date < NOW())
 }
