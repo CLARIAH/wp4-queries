@@ -2,7 +2,7 @@
 #+ tags:
 #+      - DBpedia
 
-# endpoint is http://dbpedia.org/sparql
+#+ endpoint: http://dbpedia.org/sparql
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -11,9 +11,9 @@ PREFIX http: <http://www.w3.org/2011/http#>
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?date COUNT(*)
+SELECT ?date (COUNT(?date) AS ?c)
 WHERE {
    ?p rdf:type foaf:Person .
    ?p dbo:birthDate ?date . 
 FILTER(datatype(?date) = xsd:date && ?date < NOW())
-}
+} GROUP BY ?date
