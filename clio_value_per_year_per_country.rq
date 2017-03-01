@@ -8,8 +8,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX qb: <http://purl.org/linked-data/cube#>
 PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
 SELECT ?year ?value WHERE {
-  ?obs sdmx-dimension:refArea ?_area .
+  ?obs sdmx-dimension:refArea ?_area_iri .
   ?obs sdmx-dimension:refPeriod ?year .
-  ?measure a qb:MeasureProperty.
-  ?obs ?_measure ?value .
+  ?_measure_iri a qb:MeasureProperty.
+  ?obs ?_measure_iri ?value .
 }
