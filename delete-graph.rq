@@ -1,0 +1,7 @@
+#+ summary: Delete assertion, provenance and nanopublication graphs, and associated triples
+#+ endpoint: http://virtuoso.clariah-sdh.eculture.labs.vu.nl/sparql
+
+CLEAR GRAPH ?_graph_assert_iri ;
+CLEAR GRAPH ?_graph_prov_iri ;
+CLEAR GRAPH ?_graph_nanopub_iri ;
+DELETE WHERE { GRAPH ?g { ?_graph_nanopub_iri ?p ?o } } ;
