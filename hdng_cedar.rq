@@ -1,0 +1,39 @@
+#+ summary: Joint HDNG-CEDAR populations for 1809-1920, detailed
+#+ endpoint: http://virtuoso.clariah-sdh.eculture.labs.vu.nl/sparql
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cedar: <http://lod.cedar-project.nl:8888/cedar/resource/>
+PREFIX maritalstatus: <http://lod.cedar-project.nl/vocab/cedar-maritalstatus#>
+PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX sdmx-code: <http://purl.org/linked-data/sdmx/2009/code#>
+PREFIX cedarterms: <http://lod.cedar-project.nl/vocab/cedar#>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/>
+PREFIX gg-schema: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX uk-pop: <http://statistics.data.gov.uk/def/population/>
+PREFIX sdmx: <http://purl.org/linked-data/sdmx#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?amco ?hdng_year ?cedar_year ?hdng_pop ?cedar_pop ?sex ?residenceStatus ?kom
+	FROM <http://data.socialhistory.org/resource/hdng_1840_popsize/assertion/2fb938e6/2017-03-03T08:33>
+	FROM <http://data.socialhistory.org/resource/hdng_1809_1829_popsize/assertion/40f71a82/2017-03-03T09:20>
+        FROM <urn:graph:cedar-mini:release>
+WHERE {
+    ?hdng_obs rdf:type qb:Observation .
+    ?hdng_obs gg-schema:AmsterdamCode ?amco .
+    ?hdng_obs xsd:gYear ?hdng_year .
+    ?hdng_obs uk-pop:totalPopulation ?hdng_pop .
+      ?obs a qb:Observation.
+      ?obs sdmx-dimension:refArea ?amco.
+      ?obs cedarterms:population ?cedar_pop.
+      ?obs sdmx-dimension:sex ?sex.
+      ?obs cedarterms:residenceStatus ?residenceStatus.
+      ?obs cedarterms:Kom ?kom.
+      ?slice a qb:Slice.
+      ?slice qb:observation ?obs.
+      ?slice sdmx-dimension:refPeriod ?cedar_year.
+      FILTER (NOT EXISTS {?obs cedarterms:isTotal ?total }) 
+} ORDER BY ?amco
