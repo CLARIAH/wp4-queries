@@ -1,0 +1,32 @@
+#+ summary: query comparing OPs in HSN sample to total population from hdng
+#+ tags:
+#+      - HSN
+#+      - sample
+#+      - hdng
+
+# NB: comparison not accurate because:
+# 1. year sample does not match year hdng by a long shot 
+#    and sample too small to fix
+# 2. One OP can live in multiple municipalities, 
+#    making comparison invalid
+# 1 can be solved; 2 very difficult
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX hsndim: <http://data.socialhistory.org/resource/hsn/dimension/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+
+SELECT (COUNT(DISTINCT(?idnr)) AS ?npers) ?pop ?hsngemeente 
+WHERE {
+    ?sub hsndim:IDNR ?idnr .
+    ?sub hsndim:ADRESJAR ?year .
+    ?sub hsndim:GEMEENTE ?hsngemeente .
+
+    ?hsngemeente skos:exactMatch ?amco .
+    ?hdng gg:AmsterdamCode ?amco .
+    ?hdng <http://statistics.data.gov.uk/def/population/totalPopulation> ?pop .
+    ?hdng xsd:gYear "1840"^^xsd:string .  
+}
+ORDER BY ?hsngemeente
