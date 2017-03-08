@@ -14,7 +14,7 @@ PREFIX hsndim: <http://data.socialhistory.org/resource/hsn/dimension/>
 PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
 PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
 
-SELECT ?occentry ?relentry ?idnrhsp ?occvlgnr ?relvlgnr ?hsnocc ?religie ?occyear ?relyear ?hiscoocc
+SELECT ?occentry ?relentry ?idnrhsp ?occvlgnr ?relvlgnr ?hsnocc ?hiscoocc ?hisclass ?religie ?occyear ?relyear 
 FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-07T15:48> 
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
 WHERE {
