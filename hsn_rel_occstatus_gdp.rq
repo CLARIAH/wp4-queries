@@ -30,7 +30,7 @@ WHERE {
   ?occentry hsndim:INGJAR ?occyear .
   
   BIND(URI(CONCAT("http://data.socialhistory.org/resource/hsn2013a/occupation/", STRAFTER(STR(?hsnocc), "2013a/"))) AS ?hiscoocc) .
-  ?hiscoocc <hsn-hisco:hisclass ?hisclass .
+  ?hiscoocc hsn-hisco:hisclass ?hisclass .
   
   ?relentry hsndim:IDNRHSP ?idnrhsp .
   ?relentry hsndim:INGVLGNR ?relvlgnr .
