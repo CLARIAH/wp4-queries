@@ -18,19 +18,18 @@ PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
 PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
 PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
 
-SELECT ?occentry ?relentry ?idnrhsp ?occvlgnr ?relvlgnr ?hsnocc ?hiscoocc ?hisclass ?religie ?occyear ?relyear ?gdp
-FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-07T15:48> 
+SELECT ?occentry ?relentry ?idnrhsp ?occvlgnr ?relvlgnr ?hsnocc ?hisclass ?religie ?occyear ?relyear ?gdp
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-09T14:25> 
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
 FROM <http://data.socialhistory.org/ns/resource/GDP_Capita-historical/assertion/fd2ce578/2016-08-25T14:25>
 
 WHERE {
-  ?occentry hsn:occupationalTitle ?hsnocc .
+  ?occentry hsndim:occupationalTitle ?hsnocc .
   ?occentry hsndim:IDNRHSP ?idnrhsp .
   ?occentry hsndim:INGVLGNR ?occvlgnr .
   ?occentry hsndim:INGJAR ?occyear .
   
-  BIND(URI(CONCAT("http://data.socialhistory.org/resource/hsn2013a/occupation/", STRAFTER(STR(?hsnocc), "2013a/"))) AS ?hiscoocc) .
-  ?hiscoocc hsn-hisco:hisclass ?hisclass .
+  ?hsnocc hsn-hisco:hisclass ?hisclass .
   
   ?relentry hsndim:IDNRHSP ?idnrhsp .
   ?relentry hsndim:INGVLGNR ?relvlgnr .
