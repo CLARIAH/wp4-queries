@@ -1,0 +1,20 @@
+summary: give the HISCO category and source data for a given occupation
+#+ tags:
+#+      -hisco
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX hisco: <http://data.socialhistory.org/resource/hisco/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hiscam: <http://data.socialhistory.org/resource/hiscam/v131/>
+
+SELECT distinct ?label ?hisco WHERE {
+ hisco:jobHoard skos:member ?job .
+ ?job skos:prefLabel ?label . # for standardized titles 
+ OPTIONAL {hisco:job skos:hiddenLabel ?label} . # comment this out if you're just looking for 'proper' occupational titles
+ hisco:category skos:member ?hisco.
+ ?hisco skos:member ?job . 
+  FILTER(lang(?label) = "es") # filter on a given language, like "en", "nl", "se" .
+  FILTER regex(?label, "^arquitecto", "i") . # uncomment this line if you want to filter for a specific occupation
+} 
+LIMIT 50
