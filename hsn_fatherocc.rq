@@ -1,0 +1,39 @@
+#+ summary: father's occupation at birth of OPs who at some point live at non-family members
+#+ tags:
+#+      - HSN
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX hsndim: <http://data.socialhistory.org/resource/hsn/dimension/>
+PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
+PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+prefix relacode: <http://data.socialhistory.org/resource/hsn/code/RELACODE/>
+
+SELECT * 
+
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-29T18:17>
+FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
+FROM <http://data.socialhistory.org/resource/BEVOP/assertion/35719419/2017-03-16T12:25>
+FROM <http://data.socialhistory.org/resource/hiscam_nl/assertion/71dc74da/2016-12-05T10:54>
+
+WHERE {
+  ?sub hsndim:relationToHead ?relhead .
+  ?sub hsndim:DYNAINHD ?inhd .
+  ?sub hsndim:IDNR ?idnr .
+  ?sub hsndim:HSNperson ?hsnperson .
+  
+  ?hh1 hsndim:IDNR ?idnr .
+  ?hh1 hsndim:HUISHNR "1"^^xsd:string .
+  ?hh1 hsndim:relationToOP relacode:11 .
+  ?hh1 hsndim:PERSNR ?fatherID .
+  ?occfathentry hsndim:PERSNR ?fatherID .
+  ?occfathentry hsndim:occupationalTitle ?occfather
+  
+  VALUES ?relhead {relacode:41 relacode:42 relacode:43 relacode:48 relacode:90 relacode:94 relacode:91}
+  
+  ?opentry hsndim:HSNperson ?hsnperson.
+  ?opentry hsndim:SEX_OP ?sexop .
+}
+LIMIT 19
