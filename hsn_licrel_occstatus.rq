@@ -17,7 +17,7 @@ PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT ?occentry ?relentry ?idnrhsp ?occvlgnr ?relvlgnr ?hsnocc ?hisclass ?religie ?licrcode ?occyear ?relyear 
-FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-09T14:25> 
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-29T18:17>
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
 FROM <http://data.socialhistory.org/resource/Kerkgenootschap/assertion/42aac555/2017-03-09T14:55>
 
