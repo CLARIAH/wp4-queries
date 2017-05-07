@@ -1,0 +1,33 @@
+#+ summary: parametrised query to combine two characteristics of individual observations 
+#+ tags:
+#+      - HSN
+#+      - parametrised
+#+      - GDP
+#+      - clio
+
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX hsndim: <http://data.socialhistory.org/resource/hsn/dimension/>
+PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX cliomsr: <http://data.socialhistory.org/resource/clio/measure/>
+
+SELECT *
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-04T13:07>
+FROM <http://data.socialhistory.org/ns/resource/GDP_Capita-historical/assertion/fd2ce578/2016-08-25T14:25>
+
+WHERE {
+    ?indiv hsndim:individualObservation ?obs1 .
+    ?obs1 ?_dim1 ?var1 .
+    ?obs1 hsndim:INGJAR ?year1 .
+    ?obs1 hsndim:INGVLGNR ?vlgnr1 .
+
+    ?indiv hsndim:individualObservation ?obs2 .
+    ?obs2 ?_dim2 ?var2 .
+    ?obs2 hsndim:INGJAR ?year2 .
+    ?obs2 hsndim:INGVLGNR ?vlgnr2 .
+
+    ?gdpentry cliomsr:GDP_per_Capita ?gdp .
+    ?gdpentry sdmxdim:refArea <http://data.socialhistory.org/resource/clio/Netherlands/1946/2012> .
+    ?gdpentry sdmxdim:refPeriod ?year1  .
+}
