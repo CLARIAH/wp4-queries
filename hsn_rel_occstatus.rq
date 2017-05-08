@@ -14,22 +14,20 @@ PREFIX hsndim: <http://data.socialhistory.org/resource/hsn/dimension/>
 PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
 PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
 
-SELECT ?occentry ?relentry ?idnrhsp ?occvlgnr ?relvlgnr ?hsnocc ?hisclass ?religie ?occyear ?relyear 
-FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-29T18:17>
+SELECT *
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-04T13:07>
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
 WHERE {
-    ?occentry hsndim:occupationalTitle ?hsnocc .
-    ?occentry hsndim:IDNRHSP ?idnrhsp .
-    ?occentry hsndim:INGVLGNR ?occvlgnr .
-    ?occentry hsndim:INGJAR ?occyear .
+    ?indiv hsndim:individualObservation ?occobs .
+    ?occobs hsndim:occupationalTitle ?occup .
+    ?occobs hsndim:INGJAR ?occyear .
+    ?occobs hsndim:INGVLGNR ?occno .
 
-    ?hsnocc hsn-hisco:hisclass ?hisclass .
+    ?occup hsn-hisco:hisclass ?hisclass .
 
-    ?relentry hsndim:IDNRHSP ?idnrhsp .
-    ?relentry hsndim:INGVLGNR ?relvlgnr .
-    ?relentry hsndim:Kerkgenootschap ?religie .
-    ?relentry hsndim:INGJAR ?relyear .
+    ?indiv hsndim:individualObservation ?relobs .
+    ?relobs hsndim:Kerkgenootschap ?religie .
+    ?relobs hsndim:INGVLGNR ?relno .
 
-    FILTER(?occvlgnr = ?relvlgnr) .
+    FILTER(?relno = ?occno)
 }
-ORDER BY ?occentry
