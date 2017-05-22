@@ -9,26 +9,19 @@ PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
 PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
-SELECT *
-
-FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-29T18:17>
+SELECT ?person ?hisclass ?ingdat ?hisco
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-17T20:13>
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
-FROM <http://data.socialhistory.org/resource/BEVOP/assertion/35719419/2017-03-16T12:25>
 
-WHERE {
-    ?subj hsndim:occstring_lc ?occlab .
+WHERE{
+    ?person hsndim:individualObservation ?obs .
+    ?person a hsn:OP .
+ 
+    ?obs hsndim:occstring_lc ?occlab .
+    ?obs hsndim:IDNR ?idnr .
+    ?obs hsndim:PERSNR ?persnr .
+    ?obs hsndim:INGDAT ?ingdat .
+
     ?hisco skos:altLabel ?occlab .
     ?hisco hsn-hisco:hisclass ?hisclass .
-  
-    ?subj hsndim:INGVLGNR ?occvlgnr .
-    ?subj hsndim:INGDAT ?occdat .
-    ?subj hsndim:IDNR ?idnr .
-    ?subj hsndim:HUISHNR ?huishnr .
-    ?subj hsndim:DYNATYPE <http://data.socialhistory.org/resource/hsn/code/DYNATYPE/5> .
-    ?subj hsndim:HSNperson ?hsnperson .
-    
-    # constrains observations to OPs
-    ?opentry hsndim:HSNperson ?hsnperson.
-    ?opentry hsndim:SEX_OP ?sexop .
 }
-ORDER BY ?subj
