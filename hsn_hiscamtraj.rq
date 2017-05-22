@@ -1,6 +1,9 @@
 #+ summary: hiscam over time for OPs
 #+ tags:
 #+      - HSN
+#+ summary: hisclass over time for OPs
+#+ tags:
+#+      - HSN
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -9,30 +12,24 @@ PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
 PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
-SELECT *
 
-FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-03-29T18:17>
+SELECT ?person ?hiscam ?ingdat ?hisco
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-17T20:13>
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
-FROM <http://data.socialhistory.org/resource/BEVOP/assertion/35719419/2017-03-16T12:25>
 FROM <http://data.socialhistory.org/resource/hiscam_nl/assertion/71dc74da/2016-12-05T10:54>
 
-WHERE {
-    ?subj hsndim:occstring_lc ?occlab .
+WHERE{
+    ?person hsndim:individualObservation ?obs .
+    ?person a hsn:OP .
+ 
+    ?obs hsndim:occstring_lc ?occlab .
+    ?obs hsndim:IDNR ?idnr .
+    ?obs hsndim:PERSNR ?persnr .
+    ?obs hsndim:INGDAT ?ingdat .
+
     ?hisco skos:altLabel ?occlab .
     ?hiscocode skos:example ?hisco .
     ?hiscamentr <http://data.socialhistory.org/resource/hiscam/hisco> ?hiscocode .
     ?hiscamentr sdmxdim:refArea <http://sws.geonames.org/2750405/> .
-    ?hiscamentr <http://data.socialhistory.org/resource/hiscam/value> ?hiscam .
-  
-    ?subj hsndim:INGVLGNR ?occvlgnr .
-    ?subj hsndim:INGDAT ?occdat .
-    ?subj hsndim:IDNR ?idnr .
-    ?subj hsndim:HUISHNR ?huishnr .
-    ?subj hsndim:DYNATYPE <http://data.socialhistory.org/resource/hsn/code/DYNATYPE/5> .
-    ?subj hsndim:HSNperson ?hsnperson .
-    
-    # constrains observations to OPs
-    ?opentry hsndim:HSNperson ?hsnperson.
-    ?opentry hsndim:SEX_OP ?sexop .
+    ?hiscamentr <http://data.socialhistory.org/resource/hiscam/value> ?hiscam .  
 }
-ORDER BY ?subj
