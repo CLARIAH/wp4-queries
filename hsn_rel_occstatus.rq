@@ -15,7 +15,7 @@ PREFIX hsn: <http://data.socialhistory.org/resource/hsn/>
 PREFIX hsn-hisco: <http://data.socialhistory.org/resource/hsn2013a/>
 
 SELECT *
-FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-04T13:07>
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-17T20:13>
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
 WHERE {
     ?indiv hsndim:individualObservation ?occobs .

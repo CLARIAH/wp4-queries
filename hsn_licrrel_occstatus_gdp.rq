@@ -19,7 +19,7 @@ PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
 PREFIX cliomsr: <http://data.socialhistory.org/resource/clio/measure/>
 
 SELECT *
-FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-04T13:07>
+FROM <http://data.socialhistory.org/resource/BEVDYNAP/assertion/7da40d05/2017-05-17T20:13>
 FROM <http://data.socialhistory.org/resource/hsn2013a_hisco_comma/assertion/fbedcdf7/2016-12-12T12:49>
 FROM <http://data.socialhistory.org/resource/Kerkgenootschap/assertion/42aac555/2017-03-09T14:55>
 FROM <http://data.socialhistory.org/ns/resource/GDP_Capita-historical/assertion/fd2ce578/2016-08-25T14:25>
