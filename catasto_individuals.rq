@@ -1,0 +1,28 @@
+#+ summary: returns sex, age and relation to head of household for all catasto individuals, including heads of households
+#+ N.B.: if the relationlabel is not specified the use of either filter is required to remove duplicate head of 
+#  households from the results (their relationToHead also allocates them to the household)
+#+ tags:
+#+      - catasto
+#+      - individuals
+#+      - age
+#+      - sex
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX catastodim: <https://iisg.amsterdam/catasto/dimension/>
+PREFIX catasto: <https://iisg.amsterdam/catasto/>
+PREFIX relationcode: <https://iisg.amsterdam/catasto/code/relationToHead/>
+
+SELECT  ?individual ?age ?sex ?relation ?relationlabel
+WHERE {
+  
+  ?individual catastodim:age ?age .
+  ?individual catastodim:sex ?sex .
+  ?individual catastodim:relationToHead ?relation .
+  ?relation skos:prefLabel ?relationlabel .
+  
+  FILTER(regex(?relation, "relationToHead"))
+  FILTER(lang(?relationlabel) = "en")
+}
+ORDER BY(?member)
