@@ -1,6 +1,4 @@
 #+ summary: returns sex, age and relation to head of household for all catasto individuals, including heads of households
-#+ N.B.: if the relationlabel is not specified the use of either filter is required to remove duplicate head of 
-#  households from the results (their relationToHead also allocates them to the household)
 #+ tags:
 #+      - catasto
 #+      - individuals
@@ -22,7 +20,6 @@ WHERE {
   ?individual catastodim:relationToHead ?relation .
   ?relation skos:prefLabel ?relationlabel .
   
-  FILTER(regex(?relation, "relationToHead"))
-  FILTER(lang(?relationlabel) = "en")
+    FILTER(lang(?relationlabel) = "en")
 }
 ORDER BY(?member)
