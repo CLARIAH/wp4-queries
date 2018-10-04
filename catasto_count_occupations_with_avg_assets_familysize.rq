@@ -1,0 +1,29 @@
+#+ summary: gives average value of total assets and average family size per occupation
+#+ tags:
+#+      - catasto
+#+      - assets
+#+      - family size
+#+      - occupations
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX catastodim: <https://iisg.amsterdam/catasto/dimension/>
+PREFIX catasto: <https://iisg.amsterdam/catasto/>
+PREFIX relationcode: <https://iisg.amsterdam/catasto/code/relationToHead/>
+
+SELECT  ?occupation ?occupationlabel (COUNT(?sub) as ?households) (avg(?valueofassets) as ?avg_value_assets) (avg(?allindiv) as ?avg_people_per_household) WHERE {
+  SELECT ?valueofassets ?occupation ?sub ?occupationlabel (count(?members) as ?allindiv) WHERE {
+
+ 
+  ?sub a catasto:household .
+  ?sub catastodim:householdMember ?members .
+  ?sub catastodim:TOTAL ?valueofassets .
+  ?sub catastodim:METIER ?occupation .
+  ?occupation skos:prefLabel ?occupationlabel .
+ 
+  
+  FILTER(lang(?occupationlabel)="en")
+}
+  }
+ORDER BY DESC (?households)
