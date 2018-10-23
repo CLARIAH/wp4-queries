@@ -18,10 +18,6 @@ WHERE {
  ?sub catastodim:NUMSER ?region  .
  ?region skos:prefLabel ?regionlabel . # since some NUMSER codes have the same label, we group these using DISTINCT ?regionlabel
  ?sub catastodim:householdMember ?member . 
- ?sub catastodim:METIER ?occupation .
- ?occupation skos:prefLabel ?occlabel .
- 
- 
- FILTER(lang(?occlabel)="en")
+
 }
 ORDER BY DESC (?all_members)
