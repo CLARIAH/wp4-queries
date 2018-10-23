@@ -1,0 +1,27 @@
+#+ summary: counts households and total individuals per region
+#+ tags:
+#+      - catasto
+#+      - regions
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX catastodim: <https://iisg.amsterdam/catasto/dimension/>
+PREFIX catasto: <https://iisg.amsterdam/catasto/>
+PREFIX relationcode: <https://iisg.amsterdam/catasto/code/relationToHead/>
+
+SELECT DISTINCT ?regionlabel (count(distinct ?sub) as ?households) (count(?member) as ?all_members)
+
+WHERE {
+ 
+ ?sub a catasto:household .
+ ?sub catastodim:NUMSER ?region  .
+ ?region skos:prefLabel ?regionlabel . # since some NUMSER codes have the same label, we group these using DISTINCT ?regionlabel
+ ?sub catastodim:householdMember ?member . 
+ ?sub catastodim:METIER ?occupation .
+ ?occupation skos:prefLabel ?occlabel .
+ 
+ 
+ FILTER(lang(?occlabel)="en")
+}
+ORDER BY DESC (?all_members)
