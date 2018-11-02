@@ -1,0 +1,26 @@
+#+ summary: georeferenced locations of places of residence of spanjestrijders
+
+#+ tags:
+#+      - spanjestrijders
+#+      - geo
+#+      
+
+#+ endpoint: https://api.druid.datalegend.net/datasets/RubenS/Spanjestrijders-test/services/Spanjestrijders-test/sparql
+
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX spanjestrijders: <https://iisg.amsterdam/spanjestrijders/dimension/>
+PREFIX hsn: <https://iisg.amsterdam/hsn2013a/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/>
+PREFIX ggschema: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+
+SELECT ?ID ?wkt WHERE {
+    ?ID spanjestrijders:Woonplaats / skos:exactMatch ?gemeente .
+    ?gemeente geo:hasGeometry ?kaart .
+    ?kaart ggschema:year ?kaartjaar .
+  	?kaart geo:asWKT ?wkt .
+  
+  FILTER(?kaartjaar = "1812"^^xsd:gYear)
+} 
