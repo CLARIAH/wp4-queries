@@ -1,0 +1,23 @@
+#+ summary: counts occupations of spanjestrijders using hisco codes
+#+ tags:
+#+      - spanjestrijders
+#+      - occupations
+#+      - hisco
+
+#+ endpoint: https://api.druid.datalegend.net/datasets/RubenS/Spanjestrijders-test/services/Spanjestrijders-test/sparql
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX spanjestrijders: <https://iisg.amsterdam/spanjestrijders/dimension/>
+PREFIX hsn: <https://iisg.amsterdam/hsn2013a/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT (count(?beroep) as ?n_beroep) ?beroep ?hisconr WHERE {
+    ?spanjestrijder spanjestrijders:Beroep ?beroep.
+    ?beroep skos:exactMatch ?hsnberoep .
+   ?hisco skos:member ?hsnberoep .
+   ?hisco skos:inScheme ?scheme .
+   ?hisco skos:notation ?hisconr.
+} 
+ORDER BY DESC (?n_beroep)
