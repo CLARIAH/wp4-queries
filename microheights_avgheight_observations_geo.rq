@@ -1,0 +1,34 @@
+#+ summary: get average heights (tooltip) and number of observations (color) on a map
+#+ tags:
+#+      - microheights
+#+      - geo
+#+      - stature
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX heightscountry: <https://iisg.amsterdam/microheights/code/country/>
+PREFIX microheights: <https://iisg.amsterdam/microheights/>
+PREFIX microdim: <https://iisg.amsterdam/microheights/dimension/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+select ?country ?wkt ?wktTooltip ?wktColor   {
+  {
+    select  ?wkt ?country (COUNT(?height) as ?observations) (avg(?height) as ?avg_height)  {
+     {
+  ?indiv microdim:ht_inch ?height .
+  ?indiv microdim:qdec "1820"^^xsd:gYear .
+  ?indiv microdim:countryOfResidence ?rco .
+  ?rco microdim:isoAlpha2 ?iso_height .
+  
+  ?country <https://iisg.amsterdam/vocab/isoAlpha2> ?iso_height .
+  ?country geo:hasGeometry / geo:asWKT ?wkt
+        
+      }} } 
+  bind((?avg_height) as ?wktTooltip)
+  bind((bif:log((?observations / 50)) /  4) as ?observations2)
+  bind(concat('viridis,', str(?observations2)) as ?wktColor) .
+  
+
+}
+  
+
