@@ -4,7 +4,6 @@
 #+      - geo
 #+      - stature
 
-
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX heightscountry: <https://iisg.amsterdam/microheights/code/country/>
@@ -13,9 +12,9 @@ PREFIX microdim: <https://iisg.amsterdam/microheights/dimension/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 
 
-select ?country_cshapes ?wkt ?wktTooltip ?wktColor   {
+select ?country_cshapes ?observations ?wkt  ?wktTooltip ?wktColor   {
   {
-    select  ?wkt ?country_cshapes (COUNT(?height) as ?observations) (avg(?height) as ?avg_height)  {
+    select  ?wkt ?country_cshapes (COUNT(distinct ?indiv) as ?observations) (avg(?height) as ?avg_height)  {
      {
   ?indiv microdim:ht_cm ?height .
   ?indiv microdim:bdec ?birthdecade .
@@ -27,12 +26,13 @@ select ?country_cshapes ?wkt ?wktTooltip ?wktColor   {
   ?country_cshapes geo:hasGeometry / geo:asWKT ?wkt
    
   FILTER(?age > 19)
-      }} } 
+      }
+    } 
+  } 
   bind((?avg_height) as ?wktTooltip)
-  bind((bif:log((?observations / 50)) /  4) as ?observations2)
+  bind((bif:log((?observations / 50)) /  6) as ?observations2)
   bind(concat('viridis,', str(?observations2)) as ?wktColor) .
   
-
 }
   
 
