@@ -1,0 +1,33 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX heightscountry: <https://iisg.amsterdam/microheights/code/country/>
+PREFIX microheights: <https://iisg.amsterdam/microheights/>
+PREFIX microdim: <https://iisg.amsterdam/microheights/dimension/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+
+
+select ?country_cshapes ?observations ?wkt  ?wktTooltip ?wktColor   {
+  {
+    select  ?wkt ?country_cshapes (COUNT(distinct ?indiv) as ?observations) (avg(?height) as ?avg_height)  {
+     {
+  ?indiv microdim:ht_cm ?height .
+  ?indiv microdim:bdec ?birthdecade .
+  ?indiv microdim:age ?age .
+  ?indiv microdim:countryOfResidence ?cor .
+  ?cor microdim:isoAlpha2 ?iso_height .
+  
+  ?country_cshapes <https://iisg.amsterdam/vocab/isoAlpha2> ?iso_cshapes .
+  BIND(STR(?iso_cshapes) as ?iso_cshapes2)
+  ?country_cshapes geo:hasGeometry / geo:asWKT ?wkt
+  
+  FILTER(?iso_height = ?iso_cshapes2)
+   
+  FILTER(?age > 19)
+      }
+    } 
+  }
+  bind((?avg_height) as ?wktTooltip)
+  bind((bif:log((?observations / 50)) /  8) as ?observations2)
+  bind(concat('viridis,', str(?observations2)) as ?wktColor) .
+  
+}
