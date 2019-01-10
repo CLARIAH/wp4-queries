@@ -6,9 +6,9 @@ PREFIX microdim: <https://iisg.amsterdam/microheights/dimension/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 
 
-select ?cor ?iso_height ?country_cshapes ?wkt ?observations  ?wktTooltip ?wktColor   {
+select ?cor ?iso_height ?country_cshapes ?countrydate ?observations ?wkt  ?wktTooltip ?wktColor   {
   {
-    select ?cowdate ?iso_height ?cor ?wkt ?country_cshapes (COUNT(distinct ?indiv) as ?observations) (avg(?height) as ?avg_height)  {
+    select ?countrydate ?iso_height ?cor ?wkt ?country_cshapes (COUNT(distinct ?indiv) as ?observations) (avg(?height) as ?avg_height)  {
      {
   ?indiv microdim:ht_cm ?height .
   ?indiv microdim:bdec ?birthdecade .
@@ -17,13 +17,13 @@ select ?cor ?iso_height ?country_cshapes ?wkt ?observations  ?wktTooltip ?wktCol
   ?cor microdim:isoAlpha2 ?iso_height .
   
   ?country_cshapes <https://iisg.amsterdam/vocab/isoAlpha2> ?iso_cshapes .
-  ?country_cshapes <https://iisg.amsterdam/vocab/cowStart> ?cowdate .
+  ?country_cshapes <https://iisg.amsterdam/vocab/cowEnd> ?countrydate .
   ?country_cshapes geo:hasGeometry / geo:asWKT ?wkt 
   
   BIND(STR(?iso_cshapes) as ?iso_cshapes2)
   FILTER(REGEX(?iso_height,  "[A-Z]"))
   FILTER(?iso_height = ?iso_cshapes2)
-  FILTER (?cowdate != "1955-05-05"^^xsd:date)
+  FILTER (?countrydate > "2000-01-01"^^xsd:date)
         
    
   FILTER(?age > 19)
