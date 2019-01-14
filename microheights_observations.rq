@@ -1,3 +1,4 @@
+
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX heightscountry: <https://iisg.amsterdam/microheights/code/country/>
@@ -7,22 +8,24 @@ PREFIX sex: <https://iisg.amsterdam/microheights/code/sex/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 
 
-SELECT ?qdec   ?male_obs ?female_obs
+SELECT  ?qdec_str ?male_obs ?female_obs
   {
-    SELECT (count(distinct ?male) as ?male_obs) (count(?female) as ?female_obs) ?qdec WHERE {{
+    SELECT  ?qdec_str (count(?male) as ?male_obs) (count(?female) as ?female_obs)  WHERE {{
      
-        ?male microdim:ht_cm ?height_male ;
-        microdim:sex sex:male ;
-        microdim:qdec ?qdec ;
+      ?male microdim:ht_cm ?height_male ;
+         microdim:sex sex:male ;
+         microdim:qdec ?qdec ;
          microdim:age ?age  .
   }
  UNION{ 
-        ?female microdim:ht_cm ?height_female ;
+      ?female microdim:ht_cm ?height_female ;
          microdim:sex sex:female ;
          microdim:qdec ?qdec ;
          microdim:age ?age . 
   
-         }}
+         }
+  
+    BIND(STR(?qdec) as ?qdec_str) }
   
 }
-ORDER BY ASC (?qdec)
+ORDER BY ASC (?qdec_str)
