@@ -6,7 +6,7 @@ PREFIX microdim: <https://iisg.amsterdam/microheights/dimension/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 
 
-select ?cor ?iso_height ?country_cshapes ?countrydate ?observations   ?wktTooltip ?wktColor   {
+select ?cor ?iso_height ?country_cshapes ?countrydate ?observations ?wkt  ?wktTooltip ?wktColor   {
   {
     select ?countrydate ?iso_height ?cor ?wkt ?country_cshapes (COUNT(?indiv) as ?observations) (avg(?height) as ?avg_height)  {
      {
