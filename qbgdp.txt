@@ -1,15 +1,12 @@
 # query on clio-gdp using worldbank datacube structure (more or less)
-# qbcliogdp needs to be uploaded though
 
-SELECT * 
+PREFIX cliodim: <https://iisg.amsterdam/clio/dimension/>
+PREFIX sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
+prefix clioctr: <https://iisg.amsterdam/clio/code/country/>
 
-FROM <http://data.socialhistory.org/resource/gdppc/assertion/5343176a06654392f04b0dcf163d1f1f0f65ffce/2016-01-21T16:30:48.081802>
-
-WHERE {
-	?dataset sdmx-dimension:refArea clioctr:826 .
-	?dataset sdmx-dimension:refPeriod ?year .
-	?dataset clioprop:indicator clioind:GDPPC1990GKD .
-	?dataset sdmx-measure:obsValue ?gdp .
+SELECT * WHERE {
+    ?dataset sdmxdim:refArea / cliodim:ccode clioctr:826 .
+    ?dataset sdmxdim:refPeriod ?year .
+    ?dataset cliodim:GDP_per_Capita ?gdp .
 }
-
 ORDER BY ASC(?year)

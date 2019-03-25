@@ -3,14 +3,13 @@
 #+    - education
 #+    - clio-infra
 
-PREFIX cliomsr: <http://data.socialhistory.org/resource/clio/measure/>
-PREFIX sdmxd: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cliodim: <https://iisg.amsterdam/clio/dimension/>
+prefix sdmxdim: <http://purl.org/linked-data/sdmx/2009/dimension#>
 
-SELECT ?year ?educ
-FROM <http://data.socialhistory.org/resource/Average_years_education-historical/assertion/0ba1f4de/2016-11-01T12:18>
-
-WHERE {
-    ?obs sdmxd:refArea ?_country . 
-    ?obs sdmxd:refPeriod ?year .
-    ?obs cliomsr:Average_Years_of_Education ?educ .
+select ?year ?educ where {
+  ?obs sdmxdim:refArea ?_country .
+  ?obs sdmxdim:refPeriod ?year .
+  ?obs cliodim:Average_Years_of_Education ?educ .
 }
