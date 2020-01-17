@@ -1,0 +1,36 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix admis: <https://iisg.amsterdam/admissiesdh/dimension/>
+prefix geo: <http://www.opengis.net/ont/geosparql#>
+prefix mint: <https://iisg.amsterdam/vocab/>
+
+select ?region  ?n ?wkt ?wktColor  {
+  {
+    select ?region ?geo (count(?origin) as ?n) {
+      {
+        select ?origin_coords ?origin {
+          [ admis:origin ?origin ].
+          ?origin geo:asWKT ?origin_coords.
+        }
+      }
+      {
+        select ?region ?geo ?wkt {
+          ?region a mint:Authority;
+            geo:hasGeometry ?geo.
+          ?geo
+            geo:asWKT ?wkt;
+            mint:begin ?begin;
+            mint:end ?end.
+          filter(?end>"1750"^^xsd:gYear && ?begin<"1750"^^xsd:gYear)
+        }
+      }
+      filter(bif:st_intersects(?origin_coords, ?wkt)).
+    }
+    group by ?region ?geo
+  }
+  ?geo geo:asWKT ?wkt.
+  bind(concat('viridis,', str(bif:log(?n) / 6.5)) as ?wktColor) .
+}
+order by desc(?n)
+limit 40
