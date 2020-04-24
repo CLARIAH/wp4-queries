@@ -1,0 +1,42 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX iisgv: <https://iisg.amsterdam/openarchdeath/vocab/>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX hdng: <https://iisg.amsterdam/hdng/>
+PREFIX hdngv: <https://iisg.amsterdam/hdng/vocab/>
+PREFIX hdngvar: <https://iisg.amsterdam/hdng/variable/>
+
+SELECT  ?gemeente ?location2  ?openarch_vs_hdng ?wktColor ?wkt ?wktTooltip WHERE  {{
+  
+   select (count(?deceased) as ?deaths_openarch) ?deaths_hdng  ?location2 ?gemeente ?wkt{
+      
+  ?death a <bio:Death> .
+  ?death iisgv:deceased ?deceased .
+  ?death iisgv:event_location ?location .
+    ?location gg:amsterdamCode ?location2 .
+  
+    
+
+  ?gemeente gg:amsterdamCode ?amco2 .     
+  ?gemeente a hdng:gemeente ;
+  schema:hasObservation ?observation .
+  ?observation hdngvar:STE3 ?deaths_hdng ;
+               hdngv:year "1918"^^xsd:gYear.
+  ?amco2 gg:identifies/geo:hasGeometry/geo:asWKT ?wkt .
+   
+      filter(?location2 = ?amco2)
+    }}
+        
+   BIND(xsd:float(?deaths_openarch) as ?deaths_openarch2)
+   BIND(xsd:float(?deaths_hdng) as ?deaths_hdng2)
+
+  bind((?deaths_openarch2 /8) / ?deaths_hdng2 as ?openarch_vs_hdng )
+  FILTER(?deaths_hdng > 0)
+  bind(concat('reds,', str(bif:log(?openarch_vs_hdng + 1 )/2.5)) as ?wktColor) 
+  BIND(concat(xsd:float(?openarch_vs_hdng),'_', STRAFTER(STR(?gemeente), 'gemeente/')) as ?wktTooltip)
+  
+    }
+   
