@@ -1,0 +1,41 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX iisgv: <https://iisg.amsterdam/openarchdeath/vocab/>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX hdng: <https://iisg.amsterdam/hdng/>
+PREFIX hdngv: <https://iisg.amsterdam/hdng/vocab/>
+PREFIX hdngvar: <https://iisg.amsterdam/hdng/variable/>
+
+SELECT ?gemeente (AVG((?cert_freq -1)) as ?avg_duplicate_per_certificate)  WHERE{{
+
+SELECT  ?id (COUNT(?id) as ?cert_freq) ?gemeente 
+  WHERE {
+  
+  ?death a <bio:Death> .
+  ?death iisgv:deceased ?deceased .
+  ?deceased schema:givenName ?gnname ;
+            schema:familyName ?surname . 
+  ?death iisgv:event_location ?place .
+  ?place gg:amsterdamCode ?place2 .
+  ?death <bio:date> ?date .
+  ?place2 gg:identifies ?gemeente.
+ # ?gemeente geo:hasGeometry/geo:asWKT ?wkt .
+   
+  FILTER NOT EXISTS {?gemeente gg:endDate ?enddate . } ## only select municipalities that exist today (i.e. filter double amco's)
+      
+    BIND(STRAFTER(STR(?place), "/place/") as ?amco)
+    BIND(CONCAT(?gnname,"_",?surname,"_",?date,"_",?amco) as ?id) 
+     # BIND(concat('reds,', str((?cert_freq2) /5)) as ?wktColor) 
+    
+    }}
+ # filter(?cert_freq > 1)
+  }
+  
+
+ #LIMIT 10
+ORDER BY DESC (?avg_duplicate_per_certificate)
