@@ -1,0 +1,32 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX iisgv: <https://iisg.amsterdam/openarchdeath/vocab/>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+
+SELECT  ?cert_freq (SUM(?cert_freq) as ?certificates) WHERE{{
+
+SELECT ?id (COUNT(?id) as ?cert_freq)
+  WHERE {
+  
+  ?death a <bio:Death> .
+  ?death iisgv:deceased ?deceased .
+  ?deceased schema:givenName ?gnname ;
+            schema:familyName ?surname . 
+  ?death iisgv:event_location ?place .
+  #?deceased schema:gender ?sex .
+  #?deceased iisgv:ageYears ?age.
+  ?death <bio:date> ?date .
+
+    BIND(STRAFTER(STR(?place), "/place/") as ?amco)
+    BIND(CONCAT(?gnname,"_",?surname,"_",?date,"_",?amco) as ?id) 
+# filter(!regex(?name, "doodgeboren", "i" )) 
+    }}
+ # filter(?cert_freq > 1)
+  }
+  
+
+ #LIMIT 10
+ORDER BY ASC(?cert_freq)
