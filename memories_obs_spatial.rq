@@ -1,0 +1,47 @@
+# gives map of N observations per municipality
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX iisgv: <https://iisg.amsterdam/openarchdeaths1910_1920/vocab/>
+PREFIX iisgv2: <https://iisg.amsterdam/openarchdeath/vocab/>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX bio: <http://purl.org/vocab/bio/0.1/>
+PREFIX bif: <http://www.openlinksw.com/schemas/bif#>
+
+SELECT  DISTINCT ?gg_gemeente ?n  ?wktColor ?wktTooltip ?wkt
+WHERE {
+   {
+    select (count(?id) as ?n)   ?gg_gemeente  ?max ?wkt
+    
+    {
+      {
+        select (max(?wktyear) as ?max) ?gg_gemeente
+        {
+          ?gg_gemeente geo:hasGeometry ?geo .
+          ?geo gg:year ?wktyear .
+          FILTER(?wktyear <= "1920"^^xsd:gYear) 
+        } 
+      }
+      ?gg_gemeente geo:hasGeometry [gg:year ?max ;
+                                    geo:asWKT ?wkt ] .
+      ?id schema:Residence ?gemeente .
+      ?gemeente gg:Municipality ?gg_gemeente .
+      
+      FILTER  NOT EXISTS {
+     ?gg_gemeente gg:startDate ?startdate 
+        FILTER(?startdate >= "1921-01-01"^^<http://www.w3.org/2001/XMLSchema#date>) }
+ 
+   #    FILTER  NOT EXISTS { #to select only municipalities that existed, but for some reason throws out whole Friesland
+   #  ?gg_gemeente gg:endDate ?enddate 
+   #    FILTER(?enddate <= "1918-01-01"^^<http://www.w3.org/2001/XMLSchema#date>)}
+    }
+  }
+  BIND ( IF ( ?n > 70, 1, IF ( ?n > 40, 0.75, IF (?n >= 20, 0.50, IF(?n >=10, 0.35, 0.1 )))) AS ?category)
+  BIND(concat('reds,', (?category)) as ?wktColor)
+  BIND(concat((?n),'_', STRAFTER(STR(?gg_gemeente), 'gemeentenaam/')) as ?wktTooltip)
+
+}
+ORDER BY desc (?n)
