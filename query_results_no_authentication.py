@@ -5,13 +5,7 @@ import pandas as pd
 
 total_results = []
 
-# make list of page numbers (adapt range to expected n of results)
-
-for page_num in range(1, 40):
-    url = "https://api.druid.datalegend.net/queries/RubenS/all-obs/3/run?pageSize=10000&page=" + str(page_num)
-    print(url)
-
-# Loop through from pages (adapt range to expected n of results)
+# Loop through pages (adapt range to expected n of results)
 
 for page_num in range(1, 40):
     # Build the URL and download the results
