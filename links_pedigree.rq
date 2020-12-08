@@ -1,0 +1,44 @@
+# work in progress
+
+PREFIX bif: <http://www.openlinksw.com/schemas/bif#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+PREFIX person: <https://iisg.amsterdam/links/person/>
+PREFIX event: <https://iisg.amsterdam/links/event/>
+PREFIX bio: <http://purl.org/vocab/bio/0.1/>
+PREFIX iisgv: <https://iisg.amsterdam/links/vocab/>
+
+SELECT ?person ?sex ?n_births ?first_b_date ?father_id ?mother_id  ?n_mar ?first_m_date 
+(bif:datediff('year', xsd:date(str(?first_b_date)),xsd:date(str(?first_m_date))) AS ?age_at_mar )
+
+    {
+
+  SELECT ?person (count(distinct(?birth)) as ?n_births)   ?sex   ?father_id ?mother_id  
+  (min(?b_date) as ?first_b_date)  (min(?m_date) as ?first_m_date) (count(distinct(?mar)) as ?n_mar)
+ 
+
+WHERE {
+  
+  ?birth a bio:Birth .
+  ?birth iisgv:newborn ?person .
+  ?person schema:gender ?sex .
+  ?birth bio:date ?b_date .
+  ?birth iisgv:father ?father_id .
+  ?birth iisgv:mother ?mother_id. 
+  
+  ?mar a bio:Marriage .
+  ?mar iisgv:groom | iisgv:bride ?person .
+  ?mar bio:date ?m_date .
+  ?mar iisgv:fatherGroom | iisgv:fatherBride ?father_id2 . # optional property path to include both sexes
+  ?mar iisgv:motherGroom | iisgv:motherBride ?mother_id2.  # could also opt for same _id as at birth, but then you lose the filter 																 option below
+  
+  FILTER(?father_id = ?father_id2) #link check, if id not same as birth, link = wrong or something else?
+  FILTER(?mother_id = ?mother_id2)	
+    
+ 
+} }
+ORDER BY ?person
+
+#LIMIT 1000
