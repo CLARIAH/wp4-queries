@@ -1,0 +1,36 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cod: <https://iisg.amsterdam/causesofdeath/vocab/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX hist: <http://rdf.histograph.io/>
+
+SELECT distinct ?n ?adamneturi ?districtlabel ?wkt ?wktColor ?wktTooltip WHERE {
+  {
+    select (count(?births) as ?n) ?wkt ?districtlabel  {
+     {
+      #get districtlabels from adamnet
+  ?adamneturi a  hist:district .
+  ?adamneturi rdfs:label ?label .
+  ?adamneturi geo:hasGeometry/geo:asWKT ?wkt .
+    
+#get districtlabel from dataset
+  ?births cod:event_districtName ?district .
+  ?district rdfs:label ?districtlabel .
+#convert first character streetlabel to uppercase 
+    
+  
+# compare two streetlabels to get streets from dataset
+  FILTER(?label = ?districtlabel)
+     
+      }
+    }
+  }
+   
+    BIND(concat(?districtlabel,': ',(?n), ' births') as ?wktTooltip)
+    BIND ((xsd:decimal(?n - 18) / (383-18 )) AS ?category)
+    BIND(concat('YlOrRd,', (?category)) as ?wktColor)
+  
+      
+} ORDER BY DESC (?n)
