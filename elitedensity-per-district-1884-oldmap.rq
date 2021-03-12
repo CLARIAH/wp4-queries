@@ -1,0 +1,67 @@
+#+ summary: Elite density in Amsterdam Neighbourhoods 1884.
+#+ tags:
+#+      - Amsterdam
+#+      - GIS
+#+      - Elite
+#+ endpoint: ...
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX cedar: <http://lod.cedar-project.nl/vocab/cedar#>
+PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX sdmx-code: <http://purl.org/linked-data/sdmx/2009/code#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+#select *
+SELECT ?districtLabel ?districtWKT ?totPop ?elitePop ?districtWKTTooltip ?eliteDensityIndex2  ?eliteDensityIndex
+   ?districtWKTColor ?mapEndpoint
+
+ 
+WHERE {
+
+# determine population per district
+{
+  SELECT ?district (SUM(?pop) AS ?totPop) 
+  WHERE { ?obs a qb:Observation . 
+          ?obs cedar:population ?pop . 
+          ?obs sdmx-dimension:refArea ?district .
+          ?slice a qb:Slice.
+          ?slice qb:observation ?obs.
+          ?slice sdmx-dimension:refPeriod "1889"^^xsd:int .
+  } 
+}
+
+# determine elite per district  
+{
+  SELECT ?district (count(?obs) AS ?elitePop) 
+  WHERE {   ?obs <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> "1884" .
+            ?obs <http://dbpedia.org/ontology/residence> ?district .
+  } 
+}
+
+# get data about districts
+{
+    SELECT ?district ?districtWKT ?districtLabel 
+    WHERE { ?district a <http://rdf.histograph.io/district> .
+     # ?district geo:hasGeometry / geo:asWKT ?districtWKT .
+     # 2020-05-31 by @rlzijdeman: line above ought to be correct,
+     # but data have no asWKT. Therefore replaced with line below:
+      ?district geo:hasGeometry ?districtWKT  .
+      ?district rdfs:label ?districtLabel .
+  } 
+}
+  BIND(1000*(5*(xsd:float(?elitePop))/(xsd:float(?totPop))) AS ?eliteDensity)
+  BIND(CONCAT(
+              "Neighbourhood: ", ?districtLabel, "\n",
+              "Year: 1899", "\n",
+      		  "Elite density: ", STR(?eliteDensity), "\n",
+      "Source: ", "https://github.com/CLARIAH/ATM"
+    ) AS ?districtWKTTooltip)
+  BIND(xsd:decimal(?eliteDensity / 50) AS ?eliteDensityIndex)
+ 
+  BIND(xsd:decimal(( IF ( ?eliteDensity >= 20, 1, IF ( ?eliteDensity >= 10 && ?eliteDensity < 20, 0.75, IF( ?eliteDensity >= 5 && ?eliteDensity < 10, 0.5, IF(?eliteDensity >= 1 && ?eliteDensity < 5 , 0.35, 0 )) )))) AS ?eliteDensityIndex2)
+BIND(CONCAT('YlOrRd,', STR(?eliteDensityIndex2)) AS ?districtWKTColor)
+BIND("https://mapwarper.net/maps/wms/29156?request=GetCapabilities&service=WMS&version=1.1.1" as ?mapEndpoint)
+
+} ORDER BY ?districtLabel
