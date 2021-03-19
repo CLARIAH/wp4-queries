@@ -1,0 +1,24 @@
+#+ summary: list of dutch municipalities including their usurpers
+#+ tags:
+#+      - municipalties
+#+      - absorbed
+#+      - netherlands
+#+ endpoint: https://api.druid.datalegend.net/datasets/nlgis/gemeentegeschiedenis/services/gemeentegeschiedenis/sparql
+
+prefix geo: <http://www.opengis.net/ont/geosparql#>
+prefix gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+select ?gemeente (min(?begin) as ?begin) ?eind ?usurper {
+  ?gemeente a gg:Municipality.
+  optional { ?gemeente gg:endDate ?eind. 
+  			 ?gemeente gg:absorbedBy ?usurper }
+  {
+    ?gemeente gg:startDate ?begin.
+  } union {
+    filter not exists { ?gemeente gg:startDate ?begin. }
+    ?gemeente geo:hasGeometry/gg:year ?geoJaar.
+    bind(xsd:date(?geoJaar) as ?begin)
+  }
+}
+order by ?gemeente
+
