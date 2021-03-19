@@ -3,12 +3,15 @@
 #+      - municipalties
 #+      - absorbed
 #+      - netherlands
+#+      - Amsterdam Code
 #+ endpoint: https://api.druid.datalegend.net/datasets/nlgis/gemeentegeschiedenis/services/gemeentegeschiedenis/sparql
 
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix geo: <http://www.opengis.net/ont/geosparql#>
 prefix gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
-select ?gemeente (min(?begin) as ?begin) ?eind ?usurper {
+
+select ?gemeente (min(?begin) as ?begin) ?eind ?usurper ?amsterdamCode ?amco{
   ?gemeente a gg:Municipality.
   optional { ?gemeente gg:endDate ?eind. 
   			 ?gemeente gg:absorbedBy ?usurper }
@@ -19,6 +22,9 @@ select ?gemeente (min(?begin) as ?begin) ?eind ?usurper {
     ?gemeente geo:hasGeometry/gg:year ?geoJaar.
     bind(xsd:date(?geoJaar) as ?begin)
   }
+  ?amsterdamCode rdf:type gg:AmsterdamCode .
+  ?amsterdamCode gg:identifies ?gemeente .
+  bind(substr(str(?amsterdamCode), 41) as ?amco)
+  
 }
 order by ?gemeente
-
