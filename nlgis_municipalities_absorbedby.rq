@@ -22,9 +22,10 @@ select ?gemeente (min(?begin) as ?begin) ?eind ?usurper ?amsterdamCode ?amco{
     ?gemeente geo:hasGeometry/gg:year ?geoJaar.
     bind(xsd:date(?geoJaar) as ?begin)
   }
-  ?amsterdamCode rdf:type gg:AmsterdamCode .
-  ?amsterdamCode gg:identifies ?gemeente .
-  bind(substr(str(?amsterdamCode), 41) as ?amco)
+  OPTIONAL {
+    ?amsterdamCode rdf:type gg:AmsterdamCode .
+    ?amsterdamCode gg:identifies ?gemeente .
+    bind(substr(str(?amsterdamCode), 41) as ?amco) }
   
 }
 order by ?gemeente
