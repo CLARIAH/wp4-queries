@@ -1,0 +1,23 @@
+# - go from LINKS location number to gg:municipality
+
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX civ: <https://iisg.amsterdam/id/civ/>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+
+SELECT * WHERE {
+
+  ?event civ:eventLocation ?location .
+  ?location schema:Place ?place .
+  ?place civ:inMunicipality ?munic .
+  ?munic schema:name ?links_munic_name .
+  
+  ?gg_munic a gg:Municipality .
+  ?gg_munic gg:name ?gg_name .
+  
+  BIND (STR(?gg_name)  AS ?gg_name_clean) 
+
+  FILTER(?links_munic_name = ?gg_name_clean)
+} 
+LIMIT 10
