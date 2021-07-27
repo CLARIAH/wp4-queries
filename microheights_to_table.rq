@@ -1,0 +1,21 @@
+# - This query tries to return the individuals from the MicroHeights dataset in a tabular format.
+# - Notice that instances of a different type can be returned by changing the microheights:individual term to the appropriate class.
+# - Notice that we take the first 10K individuals in a sub-select, and then perform the object term grouping. The next 10K individuals can be exported by adding a 10K offser to the sub-select. This allows the whole table to be exported.
+
+
+prefix microheights: <https://iisg.amsterdam/microheights/>
+
+select ?individual ?variable  ?obs {
+  {
+    select distinct ?individual {
+      ?individual a microheights:individual.
+    }
+   # order by ?individual
+    limit 10000
+  }
+  ?individual ?variable ?obs.
+}
+group by ?individual ?variable
+order by ?individual ?variable
+#OFFSET 870000
+LIMIT 10000
