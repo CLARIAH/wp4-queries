@@ -1,7 +1,0 @@
-SELECT COUNT(DISTINCT(?s)) 
-
-FROM <http://data.socialhistory.org/resource/napp/auke/> 
-
-WHERE {
-    ?s ?p ?o . 
-}
